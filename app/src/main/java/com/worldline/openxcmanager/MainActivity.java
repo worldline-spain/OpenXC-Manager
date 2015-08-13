@@ -1,16 +1,75 @@
 package com.worldline.openxcmanager;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.SeekBar;
 
-public class MainActivity extends AppCompatActivity {
+import com.worldline.openxcmanagers.sdk.ApiClient;
+import com.worldline.openxcmanagers.sdk.ApiClientProvider;
+import com.worldline.openxcmanagers.sdk.OpenXCResponse;
+
+import java.util.concurrent.TimeUnit;
+
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
+
+public class MainActivity extends AppCompatActivity implements Callback<OpenXCResponse> {
+
+    private SeekBar seekBarSteeringWheelAngle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        ApiClientProvider apiClientProvider = new ApiClientProvider() {
+
+            @Override
+            protected String getEndpoint() {
+                return "http://192.168.2.115";
+            }
+
+            @Override
+            public int getPort() {
+                return 50000;
+            }
+        };
+
+        ApiClient.init(apiClientProvider);
+
+        final Handler handler = new Handler();
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                ApiClient.getInstance().getData(MainActivity.this);
+                handler.postDelayed(this, 200);
+            }
+        };
+        handler.post(runnable);
+
+        findViews();
+    }
+
+    private void findViews() {
+        seekBarSteeringWheelAngle = (SeekBar) findViewById(R.id.steering_wheel_angle);
+    }
+
+    @Override
+    public void success(OpenXCResponse openXCResponse, Response response) {
+        seekBarSteeringWheelAngle.setProgress(getSteeringWheelAngleOffsetFromOpenXC(openXCResponse.steeringWheelAngle));
+    }
+
+    private int getSteeringWheelAngleOffsetFromOpenXC(int steeringWheelAngle) {
+        return steeringWheelAngle + 600;
+    }
+
+    @Override
+    public void failure(RetrofitError error) {
+
     }
 
     @Override
