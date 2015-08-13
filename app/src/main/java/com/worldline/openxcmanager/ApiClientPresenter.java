@@ -1,6 +1,7 @@
 package com.worldline.openxcmanager;
 
 import android.os.Handler;
+import android.text.TextUtils;
 
 import com.worldline.openxcmanagers.sdk.ApiClient;
 import com.worldline.openxcmanagers.sdk.ApiClientProvider;
@@ -20,8 +21,12 @@ public class ApiClientPresenter {
     private Callback<OpenXCResponse> callback = new Callback<OpenXCResponse>() {
         @Override
         public void success(OpenXCResponse openXCResponse, Response response) {
+            if (apiClientPresenterCallback != null) {
+                apiClientPresenterCallback.showVehicleControlCard(true);
+            }
             manageSeekBarSteeringWheelAngle(openXCResponse.steeringWheelAngle);
             manageAcceleratorPercentPercentage(openXCResponse.acceleratorPedalPosition);
+            manageBreakPercentPercentage(openXCResponse.brake);
         }
 
         private void manageSeekBarSteeringWheelAngle(int steeringWheelAngle) {
@@ -38,26 +43,32 @@ public class ApiClientPresenter {
             }
         }
 
+        private void manageBreakPercentPercentage(int breakPedalPosition) {
+            if (apiClientPresenterCallback != null) {
+                apiClientPresenterCallback.breakPercentPercentage(breakPedalPosition);
+            }
+        }
+
         @Override
         public void failure(RetrofitError error) {
-
+            if (apiClientPresenterCallback != null) {
+                apiClientPresenterCallback.showVehicleControlCard(false);
+            }
         }
     };
 
-    public void init(ApiClientPresenterCallback apiClientPresenterCallback) {
+    public void init(ApiClientPresenterCallback apiClientPresenterCallback, String ip, int port) {
         this.apiClientPresenterCallback = apiClientPresenterCallback;
-        ApiClientProvider apiClientProvider = new ApiClientProvider() {
 
-            @Override
-            protected String getEndpoint() {
-                return "http://192.168.2.115";
-            }
+        if (TextUtils.isEmpty(ip)) {
+            throw new IllegalArgumentException("IP can not be null");
+        }
 
-            @Override
-            public int getPort() {
-                return 50000;
-            }
-        };
+        if (!ip.startsWith("http://") || !ip.startsWith("https://")) {
+            ip = "http://" + ip;
+        }
+
+        ApiClientProvider apiClientProvider = new APiConnection(ip, port);
 
         ApiClient.init(apiClientProvider);
 
@@ -66,14 +77,37 @@ public class ApiClientPresenter {
             @Override
             public void run() {
                 ApiClient.getInstance().getData(callback);
-                handler.postDelayed(this, 200);
+                handler.postDelayed(this, 500);
             }
         };
         handler.post(runnable);
     }
 
+    private class APiConnection extends ApiClientProvider {
+
+        private final String ip;
+        private final int port;
+
+        public APiConnection(String ip, int port) {
+            this.ip = ip;
+            this.port = port;
+        }
+
+        @Override
+        protected String getEndpoint() {
+            return ip;
+        }
+
+        @Override
+        public int getPort() {
+            return port;
+        }
+    }
+
     public interface ApiClientPresenterCallback {
+        void showVehicleControlCard(boolean show);
         void steeringWheelAngle(int wheelAngle);
         void acceleratorPercentPercentage(int acceleratorPedalPosition);
+        void breakPercentPercentage(int breakPedalPosition);
     }
 }

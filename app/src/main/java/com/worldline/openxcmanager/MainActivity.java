@@ -1,26 +1,28 @@
 package com.worldline.openxcmanager;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
+import android.view.View;
+import android.widget.EditText;
 import android.widget.SeekBar;
-
-import com.worldline.openxcmanagers.sdk.ApiClient;
-import com.worldline.openxcmanagers.sdk.ApiClientProvider;
-import com.worldline.openxcmanagers.sdk.OpenXCResponse;
-
-import java.util.concurrent.TimeUnit;
-
-import retrofit.Callback;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
 
 public class MainActivity extends AppCompatActivity implements ApiClientPresenter.ApiClientPresenterCallback {
 
+    private View cardVehicleControls;
+
+    private EditText editIp;
+    private EditText editPort;
+
     private SeekBar seekBarSteeringWheelAngle;
+
     private SeekBar seekBarAcceleratorPercentPercentage;
+    private SeekBar seekBarBreakPercentPercentage;
+    private ApiClientPresenter presenter;
+    private View cardConfig;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,36 +31,76 @@ public class MainActivity extends AppCompatActivity implements ApiClientPresente
 
         findViews();
 
-        ApiClientPresenter presenter = new ApiClientPresenter();
-        presenter.init(this);
+        presenter = new ApiClientPresenter();
     }
 
     private void findViews() {
+        findCards();
+        findToolbars();
+
+        findConfig();
+
         seekBarSteeringWheelAngle = (SeekBar) findViewById(R.id.steering_wheel_angle);
         seekBarAcceleratorPercentPercentage = (SeekBar) findViewById(R.id.accelerator_percent_percentage);
+        seekBarBreakPercentPercentage = (SeekBar) findViewById(R.id.break_percent_percentage);
+
     }
 
+    private void findConfig() {
+        editIp = (EditText) findViewById(R.id.edit_ip);
+        editPort = (EditText) findViewById(R.id.edit_port);
+        View buttonConfig = findViewById(R.id.button_config_server);
+        buttonConfig.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String ip = editIp.getText().toString();
+                String port = editPort.getText().toString();
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
+                if (TextUtils.isDigitsOnly(port)) {
+                    SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(v.getContext());
+                    SharedPreferences.Editor edit = preferences.edit();
+                    edit.putString("APP_ID", ip);
+                    edit.putInt("APP_PORT", Integer.valueOf(port));
+                    edit.apply();
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
+                    presenter.init(MainActivity.this, ip, Integer.valueOf(port));
+                } else {
+                    editPort.setError(getString(R.string.error_port_numeric));
+                }
+            }
+        });
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+
+        String ip = preferences.getString("APP_ID", null);
+        int port = preferences.getInt("APP_PORT", -1);
+
+        if (!TextUtils.isEmpty(ip) && port > -1) {
+            editIp.setText(ip);
+            editPort.setText(String.valueOf(port));
         }
+    }
 
-        return super.onOptionsItemSelected(item);
+    private void findCards() {
+        cardVehicleControls = findViewById(R.id.card_vehicle_controls);
+        cardConfig = findViewById(R.id.card_config);
+    }
+
+    private void findToolbars() {
+        Toolbar toolbar_configuration = (Toolbar) findViewById(R.id.toolbar_configuration);
+        toolbar_configuration.setTitle(R.string.configuration_title);
+        Toolbar toolbar_vehicle_controls = (Toolbar) findViewById(R.id.toolbar_vehicle_controls);
+        toolbar_vehicle_controls.setTitle(R.string.vehicle_controls_title);
+    }
+
+    @Override
+    public void showVehicleControlCard(boolean show) {
+        if (cardConfig != null) {
+            cardConfig.setVisibility(View.GONE);
+        }
+        if (cardVehicleControls != null) {
+            cardVehicleControls.setVisibility(show ? View.VISIBLE : View.GONE);
+        }
     }
 
     @Override
@@ -72,6 +114,13 @@ public class MainActivity extends AppCompatActivity implements ApiClientPresente
     public void acceleratorPercentPercentage(int acceleratorPedalPosition) {
         if (seekBarAcceleratorPercentPercentage != null) {
             seekBarAcceleratorPercentPercentage.setProgress(acceleratorPedalPosition);
+        }
+    }
+
+    @Override
+    public void breakPercentPercentage(int breakPedalPosition) {
+        if (seekBarBreakPercentPercentage != null) {
+            seekBarBreakPercentPercentage.setProgress(breakPedalPosition);
         }
     }
 }

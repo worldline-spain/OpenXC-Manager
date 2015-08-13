@@ -1,4 +1,5 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -7,37 +8,140 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingBottom="@dimen/activity_vertical_margin"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin"
-        android:paddingTop="@dimen/activity_vertical_margin">
+        android:orientation="vertical">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/steering_wheel_angle" />
-
-        <SeekBar
-            android:id="@+id/steering_wheel_angle"
+        <android.support.v7.widget.CardView
+            android:id="@+id/card_config"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/gapMedium"
-            android:indeterminate="false"
-            android:max="1200" />
+            android:layout_margin="@dimen/gapMedium"
+            android:padding="@dimen/gapMedium"
+            app:cardCornerRadius="@dimen/gapMicro">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/gapLarge"
-            android:text="@string/accelerator_percent_percentage" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
-        <SeekBar
-            android:id="@+id/accelerator_percent_percentage"
+                <android.support.v7.widget.Toolbar
+                    android:id="@+id/toolbar_configuration"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    android:background="?attr/colorAccent" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="@dimen/gapMedium">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/ip_address" />
+
+                    <EditText
+                        android:id="@+id/edit_ip"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/gapMedium"
+                        android:singleLine="true" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/gapLarge"
+                        android:text="@string/port_address" />
+
+                    <EditText
+                        android:id="@+id/edit_port"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/gapMedium"
+                        android:inputType="number"
+                        android:singleLine="true" />
+
+                    <Button
+                        android:id="@+id/button_config_server"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right|end"
+                        android:layout_marginTop="@dimen/gapMedium"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:text="@string/config_server_button" />
+                </LinearLayout>
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/card_vehicle_controls"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/gapMedium"
-            android:indeterminate="false"
-            android:max="100" />
+            android:layout_margin="@dimen/gapMedium"
+            android:padding="@dimen/gapMedium"
+            android:visibility="invisible"
+            app:cardCornerRadius="@dimen/gapMicro"
+            tools:visibility="visible">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <android.support.v7.widget.Toolbar
+                    android:id="@+id/toolbar_vehicle_controls"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    android:background="?attr/colorAccent" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="@dimen/gapMedium">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/steering_wheel_angle" />
+
+                    <SeekBar
+                        android:id="@+id/steering_wheel_angle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/gapMedium"
+                        android:indeterminate="false"
+                        android:max="1200" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/gapLarge"
+                        android:text="@string/accelerator_percent_percentage" />
+
+                    <SeekBar
+                        android:id="@+id/accelerator_percent_percentage"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/gapMedium"
+                        android:indeterminate="false"
+                        android:max="100" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/gapLarge"
+                        android:text="@string/break_percent_percentage" />
+
+                    <SeekBar
+                        android:id="@+id/break_percent_percentage"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/gapMedium"
+                        android:indeterminate="false"
+                        android:max="100" />
+                </LinearLayout>
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
     </LinearLayout>
 </ScrollView>

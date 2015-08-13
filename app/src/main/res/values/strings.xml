@@ -3,6 +3,15 @@
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+
+    <string name="ip_address">Server IP</string>
+    <string name="port_address">Server PORT</string>
+    <string name="config_server_button">Config</string>
+
     <string name="steering_wheel_angle">Steering wheel angle</string>
     <string name="accelerator_percent_percentage">Accelerator pedal percentage</string>
+    <string name="break_percent_percentage">Brake pedal percentage</string>
+    <string name="vehicle_controls_title">Vehicle controls</string>
+    <string name="configuration_title">Server configuration</string>
+    <string name="error_port_numeric">Port must be numbers only</string>
 </resources>
