@@ -17,60 +17,27 @@ import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-public class MainActivity extends AppCompatActivity implements Callback<OpenXCResponse> {
+public class MainActivity extends AppCompatActivity implements ApiClientPresenter.ApiClientPresenterCallback {
 
     private SeekBar seekBarSteeringWheelAngle;
+    private SeekBar seekBarAcceleratorPercentPercentage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        ApiClientProvider apiClientProvider = new ApiClientProvider() {
-
-            @Override
-            protected String getEndpoint() {
-                return "http://192.168.2.115";
-            }
-
-            @Override
-            public int getPort() {
-                return 50000;
-            }
-        };
-
-        ApiClient.init(apiClientProvider);
-
-        final Handler handler = new Handler();
-        Runnable runnable = new Runnable() {
-            @Override
-            public void run() {
-                ApiClient.getInstance().getData(MainActivity.this);
-                handler.postDelayed(this, 200);
-            }
-        };
-        handler.post(runnable);
-
         findViews();
+
+        ApiClientPresenter presenter = new ApiClientPresenter();
+        presenter.init(this);
     }
 
     private void findViews() {
         seekBarSteeringWheelAngle = (SeekBar) findViewById(R.id.steering_wheel_angle);
+        seekBarAcceleratorPercentPercentage = (SeekBar) findViewById(R.id.accelerator_percent_percentage);
     }
 
-    @Override
-    public void success(OpenXCResponse openXCResponse, Response response) {
-        seekBarSteeringWheelAngle.setProgress(getSteeringWheelAngleOffsetFromOpenXC(openXCResponse.steeringWheelAngle));
-    }
-
-    private int getSteeringWheelAngleOffsetFromOpenXC(int steeringWheelAngle) {
-        return steeringWheelAngle + 600;
-    }
-
-    @Override
-    public void failure(RetrofitError error) {
-
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -92,5 +59,19 @@ public class MainActivity extends AppCompatActivity implements Callback<OpenXCRe
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void steeringWheelAngle(int wheelAngle) {
+        if (seekBarSteeringWheelAngle != null) {
+            seekBarSteeringWheelAngle.setProgress(wheelAngle);
+        }
+    }
+
+    @Override
+    public void acceleratorPercentPercentage(int acceleratorPedalPosition) {
+        if (seekBarAcceleratorPercentPercentage != null) {
+            seekBarAcceleratorPercentPercentage.setProgress(acceleratorPedalPosition);
+        }
     }
 }
