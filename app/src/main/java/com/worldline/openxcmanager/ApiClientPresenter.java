@@ -23,29 +23,7 @@ public class ApiClientPresenter {
         public void success(OpenXCResponse openXCResponse, Response response) {
             if (apiClientPresenterCallback != null) {
                 apiClientPresenterCallback.showVehicleControlCard(true);
-            }
-            manageSeekBarSteeringWheelAngle(openXCResponse.steeringWheelAngle);
-            manageAcceleratorPercentPercentage(openXCResponse.acceleratorPedalPosition);
-            manageBreakPercentPercentage(openXCResponse.brake);
-        }
-
-        private void manageSeekBarSteeringWheelAngle(int steeringWheelAngle) {
-            int displayAngle = steeringWheelAngle + 600;
-
-            if (apiClientPresenterCallback != null) {
-                apiClientPresenterCallback.steeringWheelAngle(displayAngle);
-            }
-        }
-
-        private void manageAcceleratorPercentPercentage(int acceleratorPedalPosition) {
-            if (apiClientPresenterCallback != null) {
-                apiClientPresenterCallback.acceleratorPercentPercentage(acceleratorPedalPosition);
-            }
-        }
-
-        private void manageBreakPercentPercentage(int breakPedalPosition) {
-            if (apiClientPresenterCallback != null) {
-                apiClientPresenterCallback.breakPercentPercentage(breakPedalPosition);
+                apiClientPresenterCallback.setData(openXCResponse);
             }
         }
 
@@ -106,8 +84,6 @@ public class ApiClientPresenter {
 
     public interface ApiClientPresenterCallback {
         void showVehicleControlCard(boolean show);
-        void steeringWheelAngle(int wheelAngle);
-        void acceleratorPercentPercentage(int acceleratorPedalPosition);
-        void breakPercentPercentage(int breakPedalPosition);
+        void setData(OpenXCResponse openXCResponse);
     }
 }
