@@ -4,7 +4,7 @@
 
     <com.worldline.openxcmanager.ui.cards.CardConfiguration
         android:id="@+id/card_config"
-        android:layout_width="match_parent"
+        android:layout_width="400dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_margin="@dimen/gapMedium" />

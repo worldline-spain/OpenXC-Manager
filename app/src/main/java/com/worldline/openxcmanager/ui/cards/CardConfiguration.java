@@ -1,16 +1,16 @@
-package com.worldline.openxcmanager;
+package com.worldline.openxcmanager.ui.cards;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.EditText;
 
-import com.worldline.openxcmanager.ui.cards.BaseCardView;
+import com.worldline.openxcmanager.R;
+import com.worldline.openxcmanager.ui.cards.base.BaseCardView;
 
 /**
  * Created by a557114 on 14/08/2015.

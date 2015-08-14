@@ -1,4 +1,4 @@
-package com.worldline.openxcmanager.ui.cards;
+package com.worldline.openxcmanager.ui.cards.base;
 
 import android.content.Context;
 import android.support.v7.widget.CardView;
