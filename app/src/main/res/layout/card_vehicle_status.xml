@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorAccent" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="@dimen/gapMedium">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/ignition_status" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/gapMedium"
+            android:orientation="horizontal">
+
+            <ToggleButton
+                android:id="@+id/ignition_status_off"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:checked="true"
+                android:textOff="@string/ignition_status_off"
+                android:textOn="@string/ignition_status_off"
+                android:theme="@style/toggle_buttons" />
+
+            <ToggleButton
+                android:id="@+id/ignition_status_accessory"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textOff="@string/ignition_status_accessory"
+                android:textOn="@string/ignition_status_accessory"
+                android:theme="@style/toggle_buttons" />
+
+            <ToggleButton
+                android:id="@+id/ignition_status_run"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textOff="@string/ignition_status_run"
+                android:textOn="@string/ignition_status_run"
+                android:theme="@style/toggle_buttons" />
+
+            <ToggleButton
+                android:id="@+id/ignition_status_start"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textOff="@string/ignition_status_start"
+                android:textOn="@string/ignition_status_start"
+                android:theme="@style/toggle_buttons" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/gapLarge"
+            android:orientation="vertical"
+            android:padding="@dimen/gapMedium">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/gear_position" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/gapMedium"
+                android:orientation="horizontal">
+
+                <ToggleButton
+                    android:id="@+id/gear_position_park"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:checked="true"
+                    android:textOff="@string/gear_position_park"
+                    android:textOn="@string/gear_position_park"
+                    android:theme="@style/toggle_buttons" />
+
+                <ToggleButton
+                    android:id="@+id/gear_position_drive"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textOff="@string/gear_position_drive"
+                    android:textOn="@string/gear_position_drive"
+                    android:theme="@style/toggle_buttons" />
+
+                <ToggleButton
+                    android:id="@+id/gear_position_neutral"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textOff="@string/gear_position_neutral"
+                    android:textOn="@string/gear_position_neutral"
+                    android:theme="@style/toggle_buttons" />
+
+                <ToggleButton
+                    android:id="@+id/gear_position_reverse"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textOff="@string/gear_position_reverse"
+                    android:textOn="@string/gear_position_reverse"
+                    android:theme="@style/toggle_buttons" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

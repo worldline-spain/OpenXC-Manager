@@ -15,6 +15,8 @@ import com.worldline.openxcmanagers.sdk.OpenXCResponse;
 public class CardsAdapter extends RecyclerView.Adapter<CardsAdapter.CardHolder> {
 
     private static final int CARD_VEHICLE_CONTROLS = 1;
+    private static final int CARD_VEHICLE_STATUS = 2;
+
     private LayoutInflater inflater;
     private OpenXCResponse openXcData;
 
@@ -28,6 +30,8 @@ public class CardsAdapter extends RecyclerView.Adapter<CardsAdapter.CardHolder> 
             default:
             case CARD_VEHICLE_CONTROLS:
                 return new CardHolder(inflater.inflate(R.layout.card_vehicle_controls_row, viewGroup, false));
+            case CARD_VEHICLE_STATUS:
+                return new CardHolder(inflater.inflate(R.layout.card_vehicle_status_row, viewGroup, false));
         }
     }
 
@@ -41,19 +45,17 @@ public class CardsAdapter extends RecyclerView.Adapter<CardsAdapter.CardHolder> 
 
     @Override
     public int getItemCount() {
-        return openXcData != null ? 3 : 0;
+        return openXcData != null ? 2 : 0;
     }
 
     @Override
     public int getItemViewType(int position) {
         switch (position) {
             default:
+            case 0:
+                return CARD_VEHICLE_CONTROLS;
             case 1:
-                return CARD_VEHICLE_CONTROLS;
-            case 2:
-                return CARD_VEHICLE_CONTROLS;
-            case 3:
-                return CARD_VEHICLE_CONTROLS;
+                return CARD_VEHICLE_STATUS;
         }
     }
 

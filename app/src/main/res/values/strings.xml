@@ -14,4 +14,16 @@
     <string name="vehicle_controls_title">Vehicle controls</string>
     <string name="configuration_title">Server configuration</string>
     <string name="error_port_numeric">Port must be numbers only</string>
+
+    <string name="vehicle_status_title">Vehicle status</string>
+    <string name="ignition_status">Ignition status</string>
+    <string name="ignition_status_off">off</string>
+    <string name="ignition_status_accessory">Accessory</string>
+    <string name="ignition_status_run">Run</string>
+    <string name="ignition_status_start">Start</string>
+    <string name="gear_position">Gear level position</string>
+    <string name="gear_position_park">Park</string>
+    <string name="gear_position_drive">Drive</string>
+    <string name="gear_position_neutral">Neutral</string>
+    <string name="gear_position_reverse">Reverse</string>
 </resources>
