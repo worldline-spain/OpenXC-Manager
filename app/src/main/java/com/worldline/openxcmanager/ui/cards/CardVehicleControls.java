@@ -37,8 +37,8 @@ public class CardVehicleControls extends CardOpenXC {
     private void init() {
         inflate(getContext(), R.layout.card_vehicle_controls, this);
 
-        Toolbar toolbar_vehicle_controls = (Toolbar) findViewById(R.id.toolbar);
-        toolbar_vehicle_controls.setTitle(R.string.vehicle_controls_title);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle(R.string.vehicle_controls_title);
 
         seekBarSteeringWheelAngle = (SeekBar) findViewById(R.id.steering_wheel_angle);
         seekBarAcceleratorPercentPercentage = (SeekBar) findViewById(R.id.accelerator_percent_percentage);

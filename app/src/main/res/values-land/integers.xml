@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <integer name="grid_size">2</integer>
+    <integer name="map_iamge_width">800</integer>
+    <integer name="map_iamge_height">400</integer>
 </resources>

@@ -47,8 +47,8 @@ public class CardVehicleStatus extends CardOpenXC {
     private void init() {
         inflate(getContext(), R.layout.card_vehicle_status, this);
 
-        Toolbar toolbar_vehicle_controls = (Toolbar) findViewById(R.id.toolbar);
-        toolbar_vehicle_controls.setTitle(R.string.vehicle_status_title);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle(R.string.vehicle_status_title);
 
         buttonOff = (CompoundButton) findViewById(R.id.ignition_status_off);
         buttonAccessory = (CompoundButton) findViewById(R.id.ignition_status_accessory);
