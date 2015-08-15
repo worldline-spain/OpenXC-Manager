@@ -26,4 +26,14 @@
     <string name="gear_position_drive">Drive</string>
     <string name="gear_position_neutral">Neutral</string>
     <string name="gear_position_reverse">Reverse</string>
+    <string name="parking_break_active">Parking break active</string>
+    <string name="headlamp_status">Headlamp status</string>
+    <string name="shift_transmission">Shift transmission</string>
+
+    <string name="first">First</string>
+    <string name="second">Second</string>
+    <string name="third">Third</string>
+    <string name="fourth">Fourth</string>
+    <string name="fifth">Fifth</string>
+    <string name="sixth">Sixth</string>
 </resources>

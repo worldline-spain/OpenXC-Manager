@@ -121,5 +121,40 @@
                     android:theme="@style/toggle_buttons" />
             </LinearLayout>
         </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="@dimen/gapMedium">
+
+            <CheckBox
+                android:id="@+id/parking_break_active"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/parking_break_active" />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <CheckBox
+                    android:id="@+id/shift_transmission"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/shift_transmission" />
+
+                <Spinner
+                    android:id="@+id/shift_transmission_position"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:entries="@array/shift_transmission_entries"
+                    android:spinnerMode="dropdown" />
+            </LinearLayout>
+        </LinearLayout>
     </LinearLayout>
 </LinearLayout>

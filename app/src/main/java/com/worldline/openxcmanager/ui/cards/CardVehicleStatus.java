@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.v7.widget.Toolbar;
 import android.util.AttributeSet;
 import android.widget.CompoundButton;
+import android.widget.Spinner;
 
 import com.worldline.openxcmanager.R;
 import com.worldline.openxcmanager.ui.cards.base.CardOpenXC;
@@ -23,6 +24,10 @@ public class CardVehicleStatus extends CardOpenXC {
     private CompoundButton gearDrive;
     private CompoundButton gearNeutral;
     private CompoundButton gearReverse;
+
+    private CompoundButton parkingBreakActive;
+    private CompoundButton shiftTransmission;
+    private Spinner shiftTransmissionPosition;
 
     public CardVehicleStatus(Context context) {
         super(context);
@@ -54,6 +59,16 @@ public class CardVehicleStatus extends CardOpenXC {
         gearDrive = (CompoundButton) findViewById(R.id.gear_position_drive);
         gearNeutral = (CompoundButton) findViewById(R.id.gear_position_neutral);
         gearReverse = (CompoundButton) findViewById(R.id.gear_position_reverse);
+
+        parkingBreakActive = (CompoundButton) findViewById(R.id.parking_break_active);
+        shiftTransmission = (CompoundButton) findViewById(R.id.shift_transmission);
+
+        shiftTransmissionPosition = (Spinner) findViewById(R.id.shift_transmission_position);
+
+
+        if (shiftTransmission != null) {
+            shiftTransmissionPosition.setEnabled(shiftTransmission.isChecked());
+        }
     }
 
     @Override
@@ -61,6 +76,12 @@ public class CardVehicleStatus extends CardOpenXC {
         if (openXCResponse != null) {
             manageIngnitionButtons(openXCResponse.ignitionStatus);
             manageGearButtons(openXCResponse.gearLeverPosition);
+
+            if (parkingBreakActive != null) {
+                parkingBreakActive.setChecked(openXCResponse.parkingBrakeStatus);
+            }
+
+            manageShiftTransmission(openXCResponse.manualTrans, openXCResponse.transmissionGearPosition);
         }
     }
 
@@ -102,6 +123,34 @@ public class CardVehicleStatus extends CardOpenXC {
         }
         if (buttonStart != null) {
             buttonStart.setChecked(false);
+        }
+    }
+
+    private void manageShiftTransmission(boolean manualTrans, String transmissionGearPosition) {
+        if (shiftTransmission != null && shiftTransmissionPosition != null) {
+            shiftTransmission.setChecked(manualTrans);
+            shiftTransmissionPosition.setEnabled(shiftTransmission.isChecked());
+
+            switch (transmissionGearPosition) {
+                case "first":
+                    shiftTransmissionPosition.setSelection(0);
+                    break;
+                case "second":
+                    shiftTransmissionPosition.setSelection(1);
+                    break;
+                case "third":
+                    shiftTransmissionPosition.setSelection(2);
+                    break;
+                case "fourth":
+                    shiftTransmissionPosition.setSelection(3);
+                    break;
+                case "fifth":
+                    shiftTransmissionPosition.setSelection(4);
+                    break;
+                case "sixth":
+                    shiftTransmissionPosition.setSelection(5);
+                    break;
+            }
         }
     }
 

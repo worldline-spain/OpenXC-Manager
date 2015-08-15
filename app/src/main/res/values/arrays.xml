@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="shift_transmission_entries">
+        <item>@string/first</item>
+        <item>@string/second</item>
+        <item>@string/third</item>
+        <item>@string/fourth</item>
+        <item>@string/fifth</item>
+        <item>@string/sixth</item>
+    </string-array>
+</resources>
