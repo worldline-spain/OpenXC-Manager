@@ -62,8 +62,9 @@ public class CardLocation extends CardOpenXC {
     private Uri buildUri(double latitude, double longitude) {
         // https://maps.googleapis.com/maps/api/staticmap?size=1000x600&markers=color:blue%7C42.292834,-83.237275&zoom=17
 
-        int width = getResources().getInteger(R.integer.map_iamge_width);
-        int height = getResources().getInteger(R.integer.map_iamge_height);
+        int width = getResources().getInteger(R.integer.map_image_width);
+        int height = getResources().getInteger(R.integer.map_image_height);
+        int scale = getResources().getInteger(R.integer.map_image_scale);
 
         Uri.Builder builder = Uri.EMPTY.buildUpon();
         builder.scheme("https")
@@ -73,7 +74,8 @@ public class CardLocation extends CardOpenXC {
                 .appendPath("staticmap")
                 .encodedQuery("markers=color:blue%7C" + latitude + "," + longitude)
                 .appendQueryParameter("size", width + "x" + height)
-                .appendQueryParameter("zoom", "16");
+                .appendQueryParameter("zoom", "16")
+                .appendQueryParameter("scale", String.valueOf(scale));
 
         return builder.build();
     }
