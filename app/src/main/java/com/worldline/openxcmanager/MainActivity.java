@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 
@@ -30,7 +31,7 @@ public class MainActivity extends AppCompatActivity implements ApiClientPresente
     private void findViews() {
         findConfig();
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler);
-        recyclerView.setLayoutManager(new GridLayoutManager(this, getResources().getInteger(R.integer.grid_size)));
+        recyclerView.setLayoutManager(new StaggeredGridLayoutManager(getResources().getInteger(R.integer.grid_size), StaggeredGridLayoutManager.VERTICAL));
         adapter = new CardsAdapter(LayoutInflater.from(this));
         recyclerView.setAdapter(adapter);
 
