@@ -6,7 +6,7 @@ import android.util.AttributeSet;
 import android.widget.SeekBar;
 
 import com.worldline.openxcmanager.R;
-import com.worldline.openxcmanager.ui.CenterSeekBar;
+import com.worldline.openxcmanager.ui.widget.CenterSeekBar;
 import com.worldline.openxcmanager.ui.cards.base.CardOpenXC;
 import com.worldline.openxcmanagers.sdk.ApiClient;
 import com.worldline.openxcmanagers.sdk.OpenXCResponse;

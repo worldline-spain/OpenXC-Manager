@@ -1,4 +1,4 @@
-package com.worldline.openxcmanager.ui;
+package com.worldline.openxcmanager.ui.widget;
 
 import android.annotation.TargetApi;
 import android.content.Context;

@@ -22,7 +22,7 @@
             android:layout_height="wrap_content"
             android:text="@string/steering_wheel_angle" />
 
-        <com.worldline.openxcmanager.ui.CenterSeekBar
+        <com.worldline.openxcmanager.ui.widget.CenterSeekBar
             android:id="@+id/steering_wheel_angle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

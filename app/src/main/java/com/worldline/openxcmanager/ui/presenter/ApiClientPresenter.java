@@ -1,4 +1,4 @@
-package com.worldline.openxcmanager;
+package com.worldline.openxcmanager.ui.presenter;
 
 import android.os.Handler;
 import android.text.TextUtils;
