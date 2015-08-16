@@ -25,12 +25,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/gapMedium"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:padding="@dimen/gapMedium">
 
             <ToggleButton
                 android:id="@+id/ignition_status_off"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textSize="12sp"
                 android:layout_weight="1"
                 android:checked="true"
                 android:textOff="@string/ignition_status_off"
@@ -41,6 +43,7 @@
                 android:id="@+id/ignition_status_accessory"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textSize="12sp"
                 android:layout_weight="1"
                 android:textOff="@string/ignition_status_accessory"
                 android:textOn="@string/ignition_status_accessory"
@@ -50,6 +53,7 @@
                 android:id="@+id/ignition_status_run"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textSize="12sp"
                 android:layout_weight="1"
                 android:textOff="@string/ignition_status_run"
                 android:textOn="@string/ignition_status_run"
@@ -59,102 +63,103 @@
                 android:id="@+id/ignition_status_start"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textSize="12sp"
                 android:layout_weight="1"
                 android:textOff="@string/ignition_status_start"
                 android:textOn="@string/ignition_status_start"
                 android:theme="@style/toggle_buttons" />
         </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/gapLarge"
+        android:orientation="vertical"
+        android:padding="@dimen/gapMedium">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/gear_position" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/gapLarge"
-            android:orientation="vertical"
-            android:padding="@dimen/gapMedium">
+            android:layout_marginTop="@dimen/gapMedium"
+            android:orientation="horizontal">
 
-            <TextView
+            <ToggleButton
+                android:id="@+id/gear_position_park"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/gear_position" />
+                android:layout_weight="1"
+                android:checked="true"
+                android:textOff="@string/gear_position_park"
+                android:textOn="@string/gear_position_park"
+                android:theme="@style/toggle_buttons" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
+            <ToggleButton
+                android:id="@+id/gear_position_drive"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/gapMedium"
-                android:orientation="horizontal">
+                android:layout_weight="1"
+                android:textOff="@string/gear_position_drive"
+                android:textOn="@string/gear_position_drive"
+                android:theme="@style/toggle_buttons" />
 
-                <ToggleButton
-                    android:id="@+id/gear_position_park"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:checked="true"
-                    android:textOff="@string/gear_position_park"
-                    android:textOn="@string/gear_position_park"
-                    android:theme="@style/toggle_buttons" />
+            <ToggleButton
+                android:id="@+id/gear_position_neutral"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textOff="@string/gear_position_neutral"
+                android:textOn="@string/gear_position_neutral"
+                android:theme="@style/toggle_buttons" />
 
-                <ToggleButton
-                    android:id="@+id/gear_position_drive"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textOff="@string/gear_position_drive"
-                    android:textOn="@string/gear_position_drive"
-                    android:theme="@style/toggle_buttons" />
-
-                <ToggleButton
-                    android:id="@+id/gear_position_neutral"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textOff="@string/gear_position_neutral"
-                    android:textOn="@string/gear_position_neutral"
-                    android:theme="@style/toggle_buttons" />
-
-                <ToggleButton
-                    android:id="@+id/gear_position_reverse"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textOff="@string/gear_position_reverse"
-                    android:textOn="@string/gear_position_reverse"
-                    android:theme="@style/toggle_buttons" />
-            </LinearLayout>
+            <ToggleButton
+                android:id="@+id/gear_position_reverse"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textOff="@string/gear_position_reverse"
+                android:textOn="@string/gear_position_reverse"
+                android:theme="@style/toggle_buttons" />
         </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="@dimen/gapMedium">
+
+        <CheckBox
+            android:id="@+id/parking_break_active"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/parking_break_active" />
+
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="@dimen/gapMedium">
+            android:orientation="horizontal">
 
             <CheckBox
-                android:id="@+id/parking_break_active"
+                android:id="@+id/shift_transmission"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/parking_break_active" />
+                android:layout_weight="1"
+                android:text="@string/shift_transmission" />
 
-
-            <LinearLayout
+            <Spinner
+                android:id="@+id/shift_transmission_position"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <CheckBox
-                    android:id="@+id/shift_transmission"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/shift_transmission" />
-
-                <Spinner
-                    android:id="@+id/shift_transmission_position"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:entries="@array/shift_transmission_entries"
-                    android:spinnerMode="dropdown" />
-            </LinearLayout>
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:entries="@array/shift_transmission_entries"
+                android:spinnerMode="dropdown" />
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

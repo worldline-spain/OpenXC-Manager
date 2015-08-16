@@ -6,6 +6,7 @@ import android.util.AttributeSet;
 import android.widget.SeekBar;
 
 import com.worldline.openxcmanager.R;
+import com.worldline.openxcmanager.ui.CenterSeekBar;
 import com.worldline.openxcmanager.ui.cards.base.BaseCardView;
 import com.worldline.openxcmanager.ui.cards.base.CardOpenXC;
 import com.worldline.openxcmanagers.sdk.OpenXCResponse;
@@ -15,7 +16,7 @@ import com.worldline.openxcmanagers.sdk.OpenXCResponse;
  */
 public class CardVehicleControls extends CardOpenXC {
 
-    private SeekBar seekBarSteeringWheelAngle;
+    private CenterSeekBar seekBarSteeringWheelAngle;
     private SeekBar seekBarAcceleratorPercentPercentage;
     private SeekBar seekBarBreakPercentPercentage;
 
@@ -40,7 +41,7 @@ public class CardVehicleControls extends CardOpenXC {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle(R.string.vehicle_controls_title);
 
-        seekBarSteeringWheelAngle = (SeekBar) findViewById(R.id.steering_wheel_angle);
+        seekBarSteeringWheelAngle = (CenterSeekBar) findViewById(R.id.steering_wheel_angle);
         seekBarAcceleratorPercentPercentage = (SeekBar) findViewById(R.id.accelerator_percent_percentage);
         seekBarBreakPercentPercentage = (SeekBar) findViewById(R.id.break_percent_percentage);
     }
@@ -48,7 +49,7 @@ public class CardVehicleControls extends CardOpenXC {
     @Override
     public void setData(OpenXCResponse openXCResponse) {
         if (openXCResponse != null) {
-            steeringWheelAngle(openXCResponse.steeringWheelAngle + 600);
+            steeringWheelAngle(openXCResponse.steeringWheelAngle);
             acceleratorPercentPercentage(openXCResponse.acceleratorPedalPosition);
             breakPercentPercentage(openXCResponse.brake);
         }

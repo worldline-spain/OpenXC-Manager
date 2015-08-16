@@ -18,7 +18,7 @@
     <string name="vehicle_status_title">Vehicle status</string>
     <string name="ignition_status">Ignition status</string>
     <string name="ignition_status_off">off</string>
-    <string name="ignition_status_accessory">Accessory</string>
+    <string name="ignition_status_accessory">Acces</string>
     <string name="ignition_status_run">Run</string>
     <string name="ignition_status_start">Start</string>
     <string name="gear_position">Gear level position</string>
