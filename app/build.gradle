@@ -1,9 +1,16 @@
 apply plugin: 'com.android.application'
 
 android {
+    signingConfigs {
+        Sign {
+            keyAlias 'OpenXCManager'
+            keyPassword 'android'
+            storeFile file('../app.keystore.jks')
+            storePassword 'android'
+        }
+    }
     compileSdkVersion 22
     buildToolsVersion "23.0.0 rc3"
-
     defaultConfig {
         applicationId "com.worldline.openxcmanager"
         minSdkVersion 16
@@ -12,7 +19,11 @@ android {
         versionName "1.0"
     }
     buildTypes {
+        debug {
+            applicationIdSuffix ".debug"
+        }
         release {
+            signingConfig signingConfigs.Sign
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
