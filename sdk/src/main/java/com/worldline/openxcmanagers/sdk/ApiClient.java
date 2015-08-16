@@ -4,6 +4,8 @@ import com.worldline.openxcmanagers.sdk.service.OpenXCService;
 
 import retrofit.Callback;
 import retrofit.RestAdapter;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 public class ApiClient {
 
@@ -39,6 +41,11 @@ public class ApiClient {
         restAdapter.create(OpenXCService.class).getData(callback);
     }
 
+    public void postData(String key, String value, Callback<Response> callback) {
+        RestAdapter restAdapter = createRestAdapter();
+        restAdapter.create(OpenXCService.class).postData(key, value, callback);
+    }
+
     private RestAdapter createRestAdapter() {
         RestAdapter.Builder builder = new RestAdapter.Builder();
         builder.setEndpoint(clientProvider);
@@ -55,5 +62,4 @@ public class ApiClient {
         this.logLevel = logLevel;
         this.log = log;
     }
-
 }

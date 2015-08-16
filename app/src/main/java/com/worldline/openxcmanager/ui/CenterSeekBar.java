@@ -44,23 +44,6 @@ public class CenterSeekBar extends SeekBar {
             setMin(a.getInteger(R.styleable.CenterSeekBar_csb_min, 0));
             a.recycle();
         }
-
-        setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                Log.i("CenterSeekBar", "progress: " + getOffsetProgress());
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-
-            }
-        });
     }
 
     public void setMin(int min) {
@@ -81,4 +64,6 @@ public class CenterSeekBar extends SeekBar {
     public synchronized int getOffsetProgress() {
         return super.getProgress() - offset;
     }
+
+
 }
