@@ -69,6 +69,11 @@ public class CardsAdapter extends RecyclerView.Adapter<CardsAdapter.CardHolder> 
         notifyDataSetChanged();
     }
 
+    public void clear() {
+        this.openXcData = null;
+        notifyDataSetChanged();
+    }
+
     public class CardHolder extends RecyclerView.ViewHolder {
         private final CardOpenXC card;
 

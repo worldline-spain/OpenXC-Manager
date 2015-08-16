@@ -37,4 +37,5 @@
     <string name="fifth">Fifth</string>
     <string name="sixth">Sixth</string>
     <string name="vehicle_location_title">Vehicle location</string>
+    <string name="title_activity_map">Location</string>
 </resources>

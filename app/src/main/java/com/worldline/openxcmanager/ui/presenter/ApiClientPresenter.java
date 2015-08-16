@@ -22,7 +22,7 @@ public class ApiClientPresenter {
         @Override
         public void success(OpenXCResponse openXCResponse, Response response) {
             if (apiClientPresenterCallback != null) {
-                apiClientPresenterCallback.showVehicleControlCard(true);
+                apiClientPresenterCallback.showOpenXCData(true);
                 apiClientPresenterCallback.setData(openXCResponse);
             }
         }
@@ -30,7 +30,7 @@ public class ApiClientPresenter {
         @Override
         public void failure(RetrofitError error) {
             if (apiClientPresenterCallback != null) {
-                apiClientPresenterCallback.showVehicleControlCard(false);
+                apiClientPresenterCallback.showOpenXCData(false);
             }
         }
     };
@@ -83,7 +83,7 @@ public class ApiClientPresenter {
     }
 
     public interface ApiClientPresenterCallback {
-        void showVehicleControlCard(boolean show);
+        void showOpenXCData(boolean show);
         void setData(OpenXCResponse openXCResponse);
     }
 }

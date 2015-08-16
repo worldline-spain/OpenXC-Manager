@@ -1,13 +1,17 @@
 package com.worldline.openxcmanager.ui.cards;
 
 import android.content.Context;
+import android.content.Intent;
+import android.location.Location;
 import android.net.Uri;
 import android.support.v7.widget.Toolbar;
 import android.util.AttributeSet;
+import android.view.View;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.worldline.openxcmanager.R;
+import com.worldline.openxcmanager.ui.activity.MapActivity;
 import com.worldline.openxcmanager.ui.cards.base.CardOpenXC;
 import com.worldline.openxcmanagers.sdk.OpenXCResponse;
 
@@ -43,6 +47,19 @@ public class CardLocation extends CardOpenXC {
         toolbar.setTitle(R.string.vehicle_location_title);
 
         imageLocation = (ImageView) findViewById(R.id.image_location);
+
+        setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (latitude != 0 && longitude != 0) {
+                    Location loc = new Location("");
+                    loc.setLatitude(latitude);
+                    loc.setLongitude(longitude);
+                    Intent intent = MapActivity.createIntent(v.getContext(), loc);
+                    v.getContext().startActivity(intent);
+                }
+            }
+        });
     }
 
     @Override
@@ -72,7 +89,7 @@ public class CardLocation extends CardOpenXC {
                 .appendPath("maps")
                 .appendPath("api")
                 .appendPath("staticmap")
-                .encodedQuery("markers=color:blue%7C" + latitude + "," + longitude)
+                .encodedQuery("markers=color:red%7C" + latitude + "," + longitude)
                 .appendQueryParameter("size", width + "x" + height)
                 .appendQueryParameter("zoom", "16")
                 .appendQueryParameter("scale", String.valueOf(scale));

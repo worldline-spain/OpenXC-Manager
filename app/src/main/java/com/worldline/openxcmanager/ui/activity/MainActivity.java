@@ -44,9 +44,14 @@ public class MainActivity extends AppCompatActivity implements ApiClientPresente
     }
 
     @Override
-    public void showVehicleControlCard(boolean show) {
+    public void showOpenXCData(boolean show) {
         if (cardConfig != null) {
-            cardConfig.setVisibility(show ? View.GONE : View.VISIBLE);
+            if (show) {
+                cardConfig.setVisibility(View.GONE);
+            } else {
+                cardConfig.setVisibility(View.VISIBLE);
+                adapter.clear();
+            }
         }
     }
 
