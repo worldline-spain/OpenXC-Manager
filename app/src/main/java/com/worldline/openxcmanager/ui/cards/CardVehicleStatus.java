@@ -8,7 +8,12 @@ import android.widget.Spinner;
 
 import com.worldline.openxcmanager.R;
 import com.worldline.openxcmanager.ui.cards.base.CardOpenXC;
+import com.worldline.openxcmanagers.sdk.ApiClient;
 import com.worldline.openxcmanagers.sdk.OpenXCResponse;
+
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 /**
  * Created by a557114 on 14/08/2015.
@@ -28,6 +33,10 @@ public class CardVehicleStatus extends CardOpenXC {
     private CompoundButton parkingBreakActive;
     private CompoundButton shiftTransmission;
     private Spinner shiftTransmissionPosition;
+
+    private boolean widgetsEnabled;
+    private CompoundButton.OnCheckedChangeListener compoundIgnitionStatusListener;
+    private CompoundButton.OnCheckedChangeListener checkListener;
 
     public CardVehicleStatus(Context context) {
         super(context);
@@ -51,9 +60,13 @@ public class CardVehicleStatus extends CardOpenXC {
         toolbar.setTitle(R.string.vehicle_status_title);
 
         buttonOff = (CompoundButton) findViewById(R.id.ignition_status_off);
+        buttonOff.setTag("off");
         buttonAccessory = (CompoundButton) findViewById(R.id.ignition_status_accessory);
+        buttonAccessory.setTag("accessory");
         buttonRun = (CompoundButton) findViewById(R.id.ignition_status_run);
+        buttonRun.setTag("run");
         buttonStart = (CompoundButton) findViewById(R.id.ignition_status_start);
+        buttonStart.setTag("start");
 
         gearPark = (CompoundButton) findViewById(R.id.gear_position_park);
         gearDrive = (CompoundButton) findViewById(R.id.gear_position_drive);
@@ -61,19 +74,69 @@ public class CardVehicleStatus extends CardOpenXC {
         gearReverse = (CompoundButton) findViewById(R.id.gear_position_reverse);
 
         parkingBreakActive = (CompoundButton) findViewById(R.id.parking_break_active);
+        parkingBreakActive.setTag("parking_brake_status");
         shiftTransmission = (CompoundButton) findViewById(R.id.shift_transmission);
+        shiftTransmission.setTag("manual_trans_status");
 
         shiftTransmissionPosition = (Spinner) findViewById(R.id.shift_transmission_position);
-
 
         if (shiftTransmission != null) {
             shiftTransmissionPosition.setEnabled(shiftTransmission.isChecked());
         }
+
+        final Callback<Response> responseCallback = new Callback<Response>() {
+            @Override
+            public void success(Response response, Response response2) {
+                widgetsEnabled = true;
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                widgetsEnabled = true;
+            }
+        };
+
+        compoundIgnitionStatusListener = new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                widgetsEnabled = false;
+                buttonOff.setOnCheckedChangeListener(null);
+                buttonAccessory.setOnCheckedChangeListener(null);
+                buttonRun.setOnCheckedChangeListener(null);
+                buttonStart.setOnCheckedChangeListener(null);
+
+                buttonOff.setChecked(false);
+                buttonAccessory.setChecked(false);
+                buttonRun.setChecked(false);
+                buttonStart.setChecked(false);
+
+                ApiClient.getInstance().postData("ignition_status", String.valueOf(buttonView.getTag()), responseCallback);
+            }
+        };
+
+        buttonOff.setOnCheckedChangeListener(compoundIgnitionStatusListener);
+        buttonAccessory.setOnCheckedChangeListener(compoundIgnitionStatusListener);
+        buttonRun.setOnCheckedChangeListener(compoundIgnitionStatusListener);
+        buttonStart.setOnCheckedChangeListener(compoundIgnitionStatusListener);
+
+        checkListener = new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                widgetsEnabled = false;
+
+                parkingBreakActive.setOnCheckedChangeListener(null);
+                shiftTransmission.setOnCheckedChangeListener(null);
+
+                ApiClient.getInstance().postData(String.valueOf(buttonView.getTag()), String.valueOf(isChecked), responseCallback);
+            }
+        };
+        parkingBreakActive.setOnCheckedChangeListener(checkListener);
+        shiftTransmission.setOnCheckedChangeListener(checkListener);
     }
 
     @Override
     public void setData(OpenXCResponse openXCResponse) {
-        if (openXCResponse != null) {
+        if (openXCResponse != null && widgetsEnabled) {
             manageIngnitionButtons(openXCResponse.ignitionStatus);
             manageGearButtons(openXCResponse.gearLeverPosition);
 
@@ -82,11 +145,15 @@ public class CardVehicleStatus extends CardOpenXC {
             }
 
             manageShiftTransmission(openXCResponse.manualTrans, openXCResponse.transmissionGearPosition);
+
+            parkingBreakActive.setOnCheckedChangeListener(checkListener);
+            shiftTransmission.setOnCheckedChangeListener(checkListener);
         }
     }
 
     private void manageIngnitionButtons(String ignitionStatus) {
         disableIgnitionButtons();
+
         switch (ignitionStatus) {
             case "off":
                 if (buttonOff != null) {
@@ -108,6 +175,19 @@ public class CardVehicleStatus extends CardOpenXC {
                     buttonStart.setChecked(true);
                 }
                 break;
+        }
+
+        if (buttonOff != null) {
+            buttonOff.setOnCheckedChangeListener(compoundIgnitionStatusListener);
+        }
+        if (buttonAccessory != null) {
+            buttonAccessory.setOnCheckedChangeListener(compoundIgnitionStatusListener);
+        }
+        if (buttonRun != null) {
+            buttonRun.setOnCheckedChangeListener(compoundIgnitionStatusListener);
+        }
+        if (buttonStart != null) {
+            buttonStart.setOnCheckedChangeListener(compoundIgnitionStatusListener);
         }
     }
 
