@@ -3,8 +3,9 @@ package com.worldline.openxcmanager.ui.cards;
 import android.content.Context;
 import android.support.v7.widget.Toolbar;
 import android.util.AttributeSet;
+import android.view.View;
 import android.widget.CompoundButton;
-import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.worldline.openxcmanager.R;
 import com.worldline.openxcmanager.ui.cards.base.CardOpenXC;
@@ -32,11 +33,18 @@ public class CardVehicleStatus extends CardOpenXC {
 
     private CompoundButton parkingBreakActive;
     private CompoundButton shiftTransmission;
-    private Spinner shiftTransmissionPosition;
+    private TextView shiftTransmissionPosition;
+
+    private TextView shiftTransmissionPositionDown;
+    private TextView shiftTransmissionPositionUp;
+
 
     private boolean widgetsEnabled;
     private CompoundButton.OnCheckedChangeListener compoundIgnitionStatusListener;
     private CompoundButton.OnCheckedChangeListener checkListener;
+
+    private OnClickListener clickDownShift;
+    private OnClickListener clickUpShift;
 
     public CardVehicleStatus(Context context) {
         super(context);
@@ -77,12 +85,9 @@ public class CardVehicleStatus extends CardOpenXC {
         parkingBreakActive.setTag("parking_brake_status");
         shiftTransmission = (CompoundButton) findViewById(R.id.shift_transmission);
         shiftTransmission.setTag("manual_trans_status");
-
-        shiftTransmissionPosition = (Spinner) findViewById(R.id.shift_transmission_position);
-
-        if (shiftTransmission != null) {
-            shiftTransmissionPosition.setEnabled(shiftTransmission.isChecked());
-        }
+        shiftTransmissionPosition = (TextView) findViewById(R.id.shift_transmission_position);
+        shiftTransmissionPositionDown = (TextView) findViewById(R.id.shift_transmission_position_down);
+        shiftTransmissionPositionUp = (TextView) findViewById(R.id.shift_transmission_position_up);
 
         final Callback<Response> responseCallback = new Callback<Response>() {
             @Override
@@ -132,6 +137,23 @@ public class CardVehicleStatus extends CardOpenXC {
         };
         parkingBreakActive.setOnCheckedChangeListener(checkListener);
         shiftTransmission.setOnCheckedChangeListener(checkListener);
+
+        clickDownShift = new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                widgetsEnabled = true;
+                shiftTransmissionPositionDown.setOnClickListener(null);
+                ApiClient.getInstance().postData("downshift", null, responseCallback);
+            }
+        };
+        clickUpShift = new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                widgetsEnabled = true;
+                shiftTransmissionPositionUp.setOnClickListener(null);
+                ApiClient.getInstance().postData("upshift", null, responseCallback);
+            }
+        };
     }
 
     @Override
@@ -148,6 +170,9 @@ public class CardVehicleStatus extends CardOpenXC {
 
             parkingBreakActive.setOnCheckedChangeListener(checkListener);
             shiftTransmission.setOnCheckedChangeListener(checkListener);
+
+            shiftTransmissionPositionDown.setOnClickListener(clickDownShift);
+            shiftTransmissionPositionUp.setOnClickListener(clickUpShift);
         }
     }
 
@@ -209,28 +234,11 @@ public class CardVehicleStatus extends CardOpenXC {
     private void manageShiftTransmission(boolean manualTrans, String transmissionGearPosition) {
         if (shiftTransmission != null && shiftTransmissionPosition != null) {
             shiftTransmission.setChecked(manualTrans);
-            shiftTransmissionPosition.setEnabled(shiftTransmission.isChecked());
 
-            switch (transmissionGearPosition) {
-                case "first":
-                    shiftTransmissionPosition.setSelection(0);
-                    break;
-                case "second":
-                    shiftTransmissionPosition.setSelection(1);
-                    break;
-                case "third":
-                    shiftTransmissionPosition.setSelection(2);
-                    break;
-                case "fourth":
-                    shiftTransmissionPosition.setSelection(3);
-                    break;
-                case "fifth":
-                    shiftTransmissionPosition.setSelection(4);
-                    break;
-                case "sixth":
-                    shiftTransmissionPosition.setSelection(5);
-                    break;
-            }
+            shiftTransmissionPositionDown.setEnabled(manualTrans);
+            shiftTransmissionPositionUp.setEnabled(manualTrans);
+
+            shiftTransmissionPosition.setText(transmissionGearPosition);
         }
     }
 

@@ -32,41 +32,41 @@
                 android:id="@+id/ignition_status_off"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="12sp"
                 android:layout_weight="1"
                 android:checked="true"
                 android:textOff="@string/ignition_status_off"
                 android:textOn="@string/ignition_status_off"
+                android:textSize="12sp"
                 android:theme="@style/toggle_buttons" />
 
             <ToggleButton
                 android:id="@+id/ignition_status_accessory"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="12sp"
                 android:layout_weight="1"
                 android:textOff="@string/ignition_status_accessory"
                 android:textOn="@string/ignition_status_accessory"
+                android:textSize="12sp"
                 android:theme="@style/toggle_buttons" />
 
             <ToggleButton
                 android:id="@+id/ignition_status_run"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="12sp"
                 android:layout_weight="1"
                 android:textOff="@string/ignition_status_run"
                 android:textOn="@string/ignition_status_run"
+                android:textSize="12sp"
                 android:theme="@style/toggle_buttons" />
 
             <ToggleButton
                 android:id="@+id/ignition_status_start"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="12sp"
                 android:layout_weight="1"
                 android:textOff="@string/ignition_status_start"
                 android:textOn="@string/ignition_status_start"
+                android:textSize="12sp"
                 android:theme="@style/toggle_buttons" />
         </LinearLayout>
     </LinearLayout>
@@ -137,29 +137,50 @@
         <CheckBox
             android:id="@+id/parking_break_active"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="48dp"
             android:text="@string/parking_break_active" />
 
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="48dp"
             android:orientation="horizontal">
 
             <CheckBox
                 android:id="@+id/shift_transmission"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="48dp"
                 android:layout_weight="1"
                 android:text="@string/shift_transmission" />
 
-            <Spinner
-                android:id="@+id/shift_transmission_position"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:entries="@array/shift_transmission_entries"
-                android:spinnerMode="dropdown" />
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/shift_transmission_position_down"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"
+                    android:text="-" />
+
+                <TextView
+                    android:id="@+id/shift_transmission_position"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    style="@style/Base.TextAppearance.AppCompat.Headline"
+                    android:gravity="center" />
+
+                <Button
+                    android:id="@+id/shift_transmission_position_up"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"
+                    android:text="+" />
+            </LinearLayout>
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>
