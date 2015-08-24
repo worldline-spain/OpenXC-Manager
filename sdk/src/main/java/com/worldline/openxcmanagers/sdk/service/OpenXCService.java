@@ -21,4 +21,11 @@ public interface OpenXCService {
     @POST("/_set_data")
     @FormUrlEncoded
     void postData(@Field("name") String name, @Field("value") String value, Callback<Response> callback);
+
+    @POST("/custom-message")
+    @FormUrlEncoded
+    void customMessage(@Field("custom_message_name") String custom_message_name,
+                       @Field("custom_message_value") String custom_message_value,
+                       @Field("custom_message_event") String custom_message_event,
+                       Callback<Response> callback);
 }

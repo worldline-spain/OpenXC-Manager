@@ -46,6 +46,11 @@ public class ApiClient {
         restAdapter.create(OpenXCService.class).postData(key, value, callback);
     }
 
+    public void customMessage(String name, String value, String event, Callback<Response> callback) {
+        RestAdapter restAdapter = createRestAdapter();
+        restAdapter.create(OpenXCService.class).customMessage(name, value, event, callback);
+    }
+
     private RestAdapter createRestAdapter() {
         RestAdapter.Builder builder = new RestAdapter.Builder();
         builder.setEndpoint(clientProvider);

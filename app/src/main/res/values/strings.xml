@@ -38,4 +38,5 @@
     <string name="sixth">Sixth</string>
     <string name="vehicle_location_title">Vehicle location</string>
     <string name="title_activity_map">Location</string>
+    <string name="vehicle_mil_dtc_title"><![CDATA[MIL & DTC]]></string>
 </resources>

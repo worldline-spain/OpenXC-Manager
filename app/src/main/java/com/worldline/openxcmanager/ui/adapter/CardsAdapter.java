@@ -16,6 +16,7 @@ public class CardsAdapter extends RecyclerView.Adapter<CardsAdapter.CardHolder> 
 
     private static final int CARD_VEHICLE_CONTROLS = 1;
     private static final int CARD_VEHICLE_STATUS = 2;
+    private static final int CARD_VEHICLE_MIL_DTC = 3;
 
     private LayoutInflater inflater;
     private OpenXCResponse openXcData;
@@ -32,6 +33,8 @@ public class CardsAdapter extends RecyclerView.Adapter<CardsAdapter.CardHolder> 
                 return new CardHolder(inflater.inflate(R.layout.card_vehicle_controls_row, viewGroup, false));
             case CARD_VEHICLE_STATUS:
                 return new CardHolder(inflater.inflate(R.layout.card_vehicle_status_row, viewGroup, false));
+            case CARD_VEHICLE_MIL_DTC:
+                return new CardHolder(inflater.inflate(R.layout.card_vehicle_mil_dtc_row, viewGroup, false));
         }
     }
 
@@ -45,7 +48,7 @@ public class CardsAdapter extends RecyclerView.Adapter<CardsAdapter.CardHolder> 
 
     @Override
     public int getItemCount() {
-        return openXcData != null ? 2 : 0;
+        return openXcData != null ? 3 : 0;
     }
 
     @Override
@@ -56,6 +59,8 @@ public class CardsAdapter extends RecyclerView.Adapter<CardsAdapter.CardHolder> 
                 return CARD_VEHICLE_CONTROLS;
             case 1:
                 return CARD_VEHICLE_STATUS;
+            case 2:
+                return CARD_VEHICLE_MIL_DTC;
         }
     }
 
