@@ -66,62 +66,52 @@ public class CardVehicleControls extends CardOpenXC {
         seekBarSteeringWheelAngle.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                if (fromUser) {
-                    widgetsEnabled = false;
-                    progress = seekBarSteeringWheelAngle.getOffsetProgress();
 
-                    ApiClient.getInstance().postData("angle", String.valueOf(progress), responseCallback);
-                }
             }
 
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
-
+                widgetsEnabled = false;
             }
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-
+                int progress = seekBarSteeringWheelAngle.getOffsetProgress();
+                ApiClient.getInstance().postData("angle", String.valueOf(progress), responseCallback);
             }
         });
 
         seekBarAcceleratorPercentPercentage.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                if (fromUser) {
-                    widgetsEnabled = false;
-                    ApiClient.getInstance().postData("accelerator", String.valueOf(progress), responseCallback);
-                }
+
             }
 
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
-
+                widgetsEnabled = false;
             }
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-
+                ApiClient.getInstance().postData("accelerator", String.valueOf(seekBar.getProgress()), responseCallback);
             }
         });
 
         seekBarBreakPercentPercentage.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                if (fromUser) {
-                    widgetsEnabled = false;
-                    ApiClient.getInstance().postData("brake", String.valueOf(progress), responseCallback);
-                }
+
             }
 
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
-
+                widgetsEnabled = false;
             }
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-
+                ApiClient.getInstance().postData("brake", String.valueOf(seekBar.getProgress()), responseCallback);
             }
         });
     }
