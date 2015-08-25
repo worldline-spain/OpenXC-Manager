@@ -7,11 +7,14 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 
+import com.crashlytics.android.Crashlytics;
+import com.worldline.openxcmanager.BuildConfig;
 import com.worldline.openxcmanager.ui.presenter.ApiClientPresenter;
 import com.worldline.openxcmanager.R;
 import com.worldline.openxcmanager.ui.adapter.CardsAdapter;
 import com.worldline.openxcmanager.ui.cards.CardConfiguration;
 import com.worldline.openxcmanagers.sdk.OpenXCResponse;
+import io.fabric.sdk.android.Fabric;
 
 public class MainActivity extends AppCompatActivity implements ApiClientPresenter.ApiClientPresenterCallback, CardConfiguration.Listener {
 
@@ -22,6 +25,9 @@ public class MainActivity extends AppCompatActivity implements ApiClientPresente
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (!BuildConfig.DEBUG) {
+            Fabric.with(this, new Crashlytics());
+        }
         setContentView(R.layout.activity_main);
 
         findViews();

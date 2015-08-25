@@ -33,6 +33,9 @@
         <activity
             android:name=".ui.activity.MapActivity"
             android:label="@string/title_activity_map" />
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="38ed5f68f58371757de903842af93cf6cdeb6b17" />
     </application>
 
 </manifest>
