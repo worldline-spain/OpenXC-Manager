@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -87,7 +88,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/gapMedium"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:visibility="gone"
+            tools:visibility="visible">
 
             <ToggleButton
                 android:id="@+id/gear_position_park"
@@ -138,8 +141,9 @@
             android:id="@+id/parking_break_active"
             android:layout_width="match_parent"
             android:layout_height="48dp"
-            android:text="@string/parking_break_active" />
-
+            android:text="@string/parking_break_active"
+            android:visibility="gone"
+            tools:visibility="visible" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -168,10 +172,10 @@
 
                 <TextView
                     android:id="@+id/shift_transmission_position"
+                    style="@style/Base.TextAppearance.AppCompat.Headline"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    style="@style/Base.TextAppearance.AppCompat.Headline"
                     android:gravity="center" />
 
                 <Button
