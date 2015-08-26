@@ -13,6 +13,7 @@ public class ApiClient {
     private final ApiClientProvider clientProvider;
     private RestAdapter.LogLevel logLevel;
     private RestAdapter.Log log;
+    private boolean waitForResponse;
 
     public static ApiClient init(ApiClientProvider clientProvider) {
         if (clientProvider == null) {
@@ -37,18 +38,22 @@ public class ApiClient {
     }
 
     public void getData(Callback<OpenXCResponse> callback) {
-        RestAdapter restAdapter = createRestAdapter();
-        restAdapter.create(OpenXCService.class).getData(callback);
+        if (!waitForResponse) {
+            RestAdapter restAdapter = createRestAdapter();
+            restAdapter.create(OpenXCService.class).getData(callback);
+        }
     }
 
     public void postData(String key, String value, Callback<Response> callback) {
+        waitForResponse = true;
         RestAdapter restAdapter = createRestAdapter();
-        restAdapter.create(OpenXCService.class).postData(key, value, callback);
+        restAdapter.create(OpenXCService.class).postData(key, value, new WaitCallback(callback));
     }
 
     public void customMessage(String name, String value, String event, Callback<Response> callback) {
+        waitForResponse = true;
         RestAdapter restAdapter = createRestAdapter();
-        restAdapter.create(OpenXCService.class).customMessage(name, value, event, callback);
+        restAdapter.create(OpenXCService.class).customMessage(name, value, event, new WaitCallback(callback));
     }
 
     private RestAdapter createRestAdapter() {
@@ -66,5 +71,29 @@ public class ApiClient {
     public void setLog(RestAdapter.LogLevel logLevel, RestAdapter.Log log) {
         this.logLevel = logLevel;
         this.log = log;
+    }
+
+   private class WaitCallback implements Callback<Response> {
+       private final Callback<Response> callback;
+
+       public WaitCallback(Callback<Response> callback) {
+           this.callback = callback;
+       }
+
+       @Override
+        public void success(Response response, Response response2) {
+            waitForResponse = false;
+           if (callback != null) {
+               callback.success(response, response2);
+           }
+        }
+
+        @Override
+        public void failure(RetrofitError error) {
+            waitForResponse = false;
+            if (callback != null) {
+                callback.failure(error);
+            }
+        }
     }
 }
