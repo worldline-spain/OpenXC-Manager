@@ -1,11 +1,16 @@
 package com.worldline.openxcmanager.ui.presenter;
 
+import android.content.Context;
 import android.os.Handler;
 import android.text.TextUtils;
 
 import com.worldline.openxcmanagers.sdk.ApiClient;
 import com.worldline.openxcmanagers.sdk.ApiClientProvider;
+import com.worldline.openxcmanagers.sdk.DtcLoad;
+import com.worldline.openxcmanagers.sdk.DtcVO;
 import com.worldline.openxcmanagers.sdk.OpenXCResponse;
+
+import java.util.List;
 
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -16,6 +21,7 @@ import retrofit.client.Response;
  */
 public class ApiClientPresenter {
 
+    private final DtcLoad dtcLoad;
     private ApiClientPresenterCallback apiClientPresenterCallback;
 
     private Callback<OpenXCResponse> callback = new Callback<OpenXCResponse>() {
@@ -34,6 +40,11 @@ public class ApiClientPresenter {
             }
         }
     };
+
+    public ApiClientPresenter(Context context) {
+        dtcLoad = new DtcLoad(context);
+        dtcLoad.loadDTCFromCSV();
+    }
 
     public void init(ApiClientPresenterCallback apiClientPresenterCallback, String ip, int port) {
         this.apiClientPresenterCallback = apiClientPresenterCallback;
@@ -80,6 +91,10 @@ public class ApiClientPresenter {
         public int getPort() {
             return port;
         }
+    }
+
+    public List<DtcVO> getAllDtcCodes() {
+        return dtcLoad.getDtcCodes();
     }
 
     public interface ApiClientPresenterCallback {

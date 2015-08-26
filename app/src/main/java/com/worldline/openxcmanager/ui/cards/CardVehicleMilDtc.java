@@ -25,6 +25,7 @@ public class CardVehicleMilDtc extends CardOpenXC {
 
     private Callback<Response> responseCallback;
     private boolean widgetsEnabled = true;
+    private MilDtcCallback milDtcCallback;
 
     public CardVehicleMilDtc(Context context) {
         super(context);
@@ -70,6 +71,15 @@ public class CardVehicleMilDtc extends CardOpenXC {
             }
         });
 
+        sendDTC.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (milDtcCallback != null) {
+                    milDtcCallback.requestDtcCodes();
+                }
+            }
+        });
+
         responseCallback = new Callback<Response>() {
             @Override
             public void success(Response response, Response response2) {
@@ -86,6 +96,14 @@ public class CardVehicleMilDtc extends CardOpenXC {
     @Override
     public void setData(OpenXCResponse openXCResponse) {
 
+    }
+
+    public void setMilDtcCallback(MilDtcCallback milDtcCallback) {
+        this.milDtcCallback = milDtcCallback;
+    }
+
+    public interface MilDtcCallback {
+        void requestDtcCodes();
     }
 
 }

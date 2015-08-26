@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.worldline.openxcmanager.R;
+import com.worldline.openxcmanager.ui.cards.CardVehicleMilDtc;
 import com.worldline.openxcmanager.ui.cards.base.CardOpenXC;
 import com.worldline.openxcmanagers.sdk.OpenXCResponse;
 
@@ -20,9 +21,11 @@ public class CardsAdapter extends RecyclerView.Adapter<CardsAdapter.CardHolder> 
 
     private LayoutInflater inflater;
     private OpenXCResponse openXcData;
+    private CardVehicleMilDtc.MilDtcCallback milDtcCallback;
 
-    public CardsAdapter(LayoutInflater inflater) {
+    public CardsAdapter(LayoutInflater inflater, CardVehicleMilDtc.MilDtcCallback milDtcCallback) {
         this.inflater = inflater;
+        this.milDtcCallback = milDtcCallback;
     }
 
     @Override
@@ -34,7 +37,10 @@ public class CardsAdapter extends RecyclerView.Adapter<CardsAdapter.CardHolder> 
             case CARD_VEHICLE_STATUS:
                 return new CardHolder(inflater.inflate(R.layout.card_vehicle_status_row, viewGroup, false));
             case CARD_VEHICLE_MIL_DTC:
-                return new CardHolder(inflater.inflate(R.layout.card_vehicle_mil_dtc_row, viewGroup, false));
+                View view = inflater.inflate(R.layout.card_vehicle_mil_dtc_row, viewGroup, false);
+                CardVehicleMilDtc cardVehicleMilDtc = (CardVehicleMilDtc) view.findViewById(R.id.card);
+                cardVehicleMilDtc.setMilDtcCallback(milDtcCallback);
+                return new CardHolder(view);
         }
     }
 
