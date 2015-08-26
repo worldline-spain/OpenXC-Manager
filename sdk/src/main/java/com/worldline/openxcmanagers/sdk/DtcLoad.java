@@ -26,10 +26,16 @@ public class DtcLoad {
     }
 
     public void loadDTCFromCSV() {
-        InputStream inputStream = context.getResources().openRawResource(R.raw.dtc_codes);
-        CSVFile csvFile = new CSVFile(inputStream);
-        List<String[]> scoreList = csvFile.read();
-        saveInDataBase(scoreList);
+        instanceRealm(context);
+
+        RealmResults<DtcVO> all = realm.where(DtcVO.class).findAll();
+
+        if (all != null && all.isEmpty()) {
+            InputStream inputStream = context.getResources().openRawResource(R.raw.dtc_codes);
+            CSVFile csvFile = new CSVFile(inputStream);
+            List<String[]> scoreList = csvFile.read();
+            saveInDataBase(scoreList);
+        }
     }
 
     private void saveInDataBase(List<String[]> scoreList) {
@@ -58,7 +64,7 @@ public class DtcLoad {
 
     public List<DtcVO> getDtcCodes() {
         instanceRealm(context);
-        RealmResults<DtcVO> all = realm.where(DtcVO.class).findAll();
+        RealmResults<DtcVO> all = realm.where(DtcVO.class).findAllSorted("activate", false);
         return new ArrayList<>(all);
     }
 
@@ -66,5 +72,21 @@ public class DtcLoad {
         if (realm == null) {
             this.realm = Realm.getInstance(context.getApplicationContext());
         }
+    }
+
+    public void modifyDtc(DtcVO dtcVO, int active) {
+        instanceRealm(context);
+        realm.beginTransaction();
+
+        DtcVO dtc = new DtcVO();
+        dtc.setActivate(active);
+        dtc.setDtcCode(dtcVO.getDtcCode());
+        dtc.setDescription(dtcVO.getDescription());
+
+        realm.copyToRealmOrUpdate(dtc);
+
+        realm.commitTransaction();
+        realm.close();
+        realm = null;
     }
 }

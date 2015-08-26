@@ -72,6 +72,10 @@ public class ApiClientPresenter {
         handler.post(runnable);
     }
 
+    public void modifyDtc(DtcVO dtcVO, boolean isActive) {
+        dtcLoad.modifyDtc(dtcVO, (isActive ? 1 : 0));
+    }
+
     private class APiConnection extends ApiClientProvider {
 
         private final String ip;
