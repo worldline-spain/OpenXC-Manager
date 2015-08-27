@@ -65,7 +65,22 @@ public class DtcLoad {
     public List<DtcVO> getDtcCodes() {
         instanceRealm(context);
         RealmResults<DtcVO> all = realm.where(DtcVO.class).findAllSorted("activate", false);
-        return new ArrayList<>(all);
+        List<DtcVO> newDtcCodes = new ArrayList<>(all.size());
+        for (DtcVO dtcVO : all) {
+            newDtcCodes.add(convertDtc(dtcVO));
+        }
+        realm.close();
+        realm = null;
+        return newDtcCodes;
+
+    }
+
+    private DtcVO convertDtc(DtcVO dtcVO) {
+        DtcVO dtc = new DtcVO();
+        dtc.setActivate(dtcVO.getActivate());
+        dtc.setDtcCode(dtcVO.getDtcCode());
+        dtc.setDescription(dtcVO.getDescription());
+        return dtc;
     }
 
     private void instanceRealm(Context context) {
