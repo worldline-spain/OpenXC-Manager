@@ -106,8 +106,8 @@ public class MainActivity extends AppCompatActivity implements ApiClientPresente
 
                 String extra = "";
 
-                if (error != null && error.getResponse() != null) {
-                    extra = error.getResponse().getStatus() + " " + error.getResponse().getReason();
+                if (error != null && error.getLocalizedMessage() != null) {
+                    extra = error.getLocalizedMessage();
                 }
 
                 Snackbar.make(recyclerView, "Cannot connect: " + extra, Snackbar.LENGTH_SHORT).show();
