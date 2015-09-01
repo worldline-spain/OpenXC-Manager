@@ -1,22 +1,31 @@
-package com.worldline.openxcmanager.ui.cards;
+package com.worldline.openxcmanager.ui.activity;
 
-import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
-import android.util.AttributeSet;
 import android.view.View;
 import android.widget.EditText;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.worldline.openxcmanager.R;
-import com.worldline.openxcmanager.ui.cards.base.BaseCardView;
+import com.worldline.openxcmanager.ui.presenter.ApiClientPresenter;
+import com.worldline.openxcmanagers.sdk.OpenXCResponse;
+
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 /**
- * Created by a557114 on 14/08/2015.
+ * Created by a557114 on 01/09/2015.
  */
-public class CardConfiguration extends BaseCardView {
+public class ConfigActivity extends AppCompatActivity {
 
     private TextInputLayout ipInputLayout;
     private EditText editIp;
@@ -24,28 +33,15 @@ public class CardConfiguration extends BaseCardView {
     private TextInputLayout portInputLayout;
     private EditText editPort;
 
-    private Listener listener;
+    private MaterialDialog materialDialog;
+    private View contentView;
 
-    public CardConfiguration(Context context) {
-        super(context);
-        init();
-    }
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.card_configuration);
 
-    public CardConfiguration(Context context, AttributeSet attrs) {
-        super(context, attrs);
-        init();
-    }
-
-    public CardConfiguration(Context context, AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
-        init();
-    }
-
-    private void init() {
-        inflate(getContext(), R.layout.card_configuration, this);
-
-        Toolbar toolbar_configuration = (Toolbar) findViewById(R.id.toolbar_configuration);
-        toolbar_configuration.setTitle(R.string.configuration_title);
+        contentView = findViewById(R.id.contentView);
 
         ipInputLayout = (TextInputLayout) findViewById(R.id.edit_ip_input_layout);
         portInputLayout = (TextInputLayout) findViewById(R.id.edit_port_input_layout);
@@ -67,15 +63,12 @@ public class CardConfiguration extends BaseCardView {
                     edit.putString("APP_ID", ip);
                     edit.putInt("APP_PORT", Integer.valueOf(port));
                     edit.apply();
-                    if (listener != null) {
-                        listener.callConfig(ip, Integer.valueOf(port));
-                    }
-
+                    callConfig(ip, Integer.valueOf(port));
                 }
             }
         });
 
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
 
         String ip = preferences.getString("APP_ID", null);
         int port = preferences.getInt("APP_PORT", -1);
@@ -104,6 +97,7 @@ public class CardConfiguration extends BaseCardView {
             portInputLayout.setError("PORT is not valid");
         }
     }
+
 
     public static boolean validIP(String ip) {
         try {
@@ -145,15 +139,41 @@ public class CardConfiguration extends BaseCardView {
         }
     }
 
-    public Listener getListener() {
-        return listener;
-    }
+    private void callConfig(String ip, int port) {
 
-    public void setListener(Listener listener) {
-        this.listener = listener;
-    }
+        materialDialog = new MaterialDialog.Builder(this)
+                .content(R.string.please_wait)
+                .progress(true, 0)
+                .show();
 
-    public interface Listener {
-        void callConfig(String ip, int port);
+
+        new ApiClientPresenter(this).checkConnection(new Callback<OpenXCResponse>() {
+            @Override
+            public void success(OpenXCResponse openXCResponse, Response response) {
+                if (materialDialog != null && materialDialog.isShowing()) {
+                    materialDialog.dismiss();
+                    materialDialog = null;
+                }
+
+                Intent intent = new Intent(ConfigActivity.this, MainActivity.class);
+                startActivity(intent);
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                if (materialDialog != null && materialDialog.isShowing()) {
+                    materialDialog.dismiss();
+                    materialDialog = null;
+                }
+
+                String extra = "";
+
+                if (error != null && error.getLocalizedMessage() != null) {
+                    extra = error.getLocalizedMessage();
+                }
+
+                Snackbar.make(contentView, "Cannot connect: " + extra, Snackbar.LENGTH_SHORT).show();
+            }
+        }, ip, port);
     }
 }
