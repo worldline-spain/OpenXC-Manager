@@ -46,6 +46,23 @@ public class ApiClientPresenter {
         dtcLoad.loadDTCFromCSV();
     }
 
+    public void checkConnection(Callback<OpenXCResponse> callback, String ip, int port) {
+
+        if (TextUtils.isEmpty(ip)) {
+            throw new IllegalArgumentException("IP can not be null");
+        }
+
+        if (!ip.startsWith("http://") || !ip.startsWith("https://")) {
+            ip = "http://" + ip;
+        }
+
+        ApiClientProvider apiClientProvider = new APiConnection(ip, port);
+
+        ApiClient.init(apiClientProvider);
+
+        ApiClient.getInstance().getData(callback);
+    }
+
     public void init(ApiClientPresenterCallback apiClientPresenterCallback, String ip, int port) {
         this.apiClientPresenterCallback = apiClientPresenterCallback;
 
@@ -103,6 +120,7 @@ public class ApiClientPresenter {
 
     public interface ApiClientPresenterCallback {
         void showOpenXCData(boolean show);
+
         void setData(OpenXCResponse openXCResponse);
     }
 }

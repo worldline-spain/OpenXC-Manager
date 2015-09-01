@@ -20,9 +20,8 @@ public class ApiClient {
             throw new IllegalArgumentException("ApiClientProvider can not be null");
         }
 
-        if (INSTANCE == null) {
-            INSTANCE = new ApiClient(clientProvider);
-        }
+        INSTANCE = new ApiClient(clientProvider);
+
         return INSTANCE;
     }
 
@@ -37,7 +36,8 @@ public class ApiClient {
         clientProvider = apiClientProvider;
     }
 
-    public void getData(Callback<OpenXCResponse> callback) {if (!waitForResponse) {
+    public void getData(Callback<OpenXCResponse> callback) {
+        if (!waitForResponse) {
             RestAdapter restAdapter = createRestAdapter();
             restAdapter.create(OpenXCService.class).getData(callback);
         }
@@ -72,19 +72,19 @@ public class ApiClient {
         this.log = log;
     }
 
-   private class WaitCallback implements Callback<Response> {
-       private final Callback<Response> callback;
+    private class WaitCallback implements Callback<Response> {
+        private final Callback<Response> callback;
 
-       public WaitCallback(Callback<Response> callback) {
-           this.callback = callback;
-       }
+        public WaitCallback(Callback<Response> callback) {
+            this.callback = callback;
+        }
 
-       @Override
+        @Override
         public void success(Response response, Response response2) {
             waitForResponse = false;
-           if (callback != null) {
-               callback.success(response, response2);
-           }
+            if (callback != null) {
+                callback.success(response, response2);
+            }
         }
 
         @Override
