@@ -92,6 +92,7 @@ public class MainActivity extends AppCompatActivity implements ApiClientPresente
                     materialDialog.dismiss();
                     materialDialog = null;
                 }
+                presenter.init(MainActivity.this);
                 setData(openXCResponse);
                 showOpenXCData(true);
             }
@@ -102,7 +103,14 @@ public class MainActivity extends AppCompatActivity implements ApiClientPresente
                     materialDialog.dismiss();
                     materialDialog = null;
                 }
-                Snackbar.make(recyclerView, "Cannot connect", Snackbar.LENGTH_SHORT).show();
+
+                String extra = "";
+
+                if (error != null && error.getResponse() != null) {
+                    extra = error.getResponse().getStatus() + " " + error.getResponse().getReason();
+                }
+
+                Snackbar.make(recyclerView, "Cannot connect: " + extra, Snackbar.LENGTH_SHORT).show();
             }
         }, ip, port);
     }

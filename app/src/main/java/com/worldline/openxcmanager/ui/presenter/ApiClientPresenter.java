@@ -63,20 +63,8 @@ public class ApiClientPresenter {
         ApiClient.getInstance().getData(callback);
     }
 
-    public void init(ApiClientPresenterCallback apiClientPresenterCallback, String ip, int port) {
+    public void init(ApiClientPresenterCallback apiClientPresenterCallback) {
         this.apiClientPresenterCallback = apiClientPresenterCallback;
-
-        if (TextUtils.isEmpty(ip)) {
-            throw new IllegalArgumentException("IP can not be null");
-        }
-
-        if (!ip.startsWith("http://") || !ip.startsWith("https://")) {
-            ip = "http://" + ip;
-        }
-
-        ApiClientProvider apiClientProvider = new APiConnection(ip, port);
-
-        ApiClient.init(apiClientProvider);
 
         final Handler handler = new Handler();
         Runnable runnable = new Runnable() {
