@@ -16,31 +16,35 @@
         android:orientation="vertical"
         android:padding="@dimen/gapLarge">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/ip_address" />
-
-        <EditText
-            android:id="@+id/edit_ip"
+        <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/gapMedium"
-            android:singleLine="true" />
+            android:id="@+id/edit_ip_input_layout">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/gapLarge"
-            android:text="@string/port_address" />
+            <EditText
+                android:id="@+id/edit_ip"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/gapMedium"
+                android:singleLine="true"
+                android:hint="@string/ip_address" />
+        </android.support.design.widget.TextInputLayout>
 
-        <EditText
-            android:id="@+id/edit_port"
+        <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/gapMedium"
-            android:inputType="number"
-            android:singleLine="true" />
+            android:id="@+id/edit_port_input_layout"
+            android:layout_margin="@dimen/gapMedium">
+
+            <EditText
+                android:id="@+id/edit_port"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/gapMedium"
+                android:inputType="number"
+                android:singleLine="true"
+                android:hint="@string/port_address" />
+        </android.support.design.widget.TextInputLayout>
     </LinearLayout>
 
     <Button

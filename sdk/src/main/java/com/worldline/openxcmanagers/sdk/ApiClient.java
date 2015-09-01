@@ -37,8 +37,7 @@ public class ApiClient {
         clientProvider = apiClientProvider;
     }
 
-    public void getData(Callback<OpenXCResponse> callback) {
-        if (!waitForResponse) {
+    public void getData(Callback<OpenXCResponse> callback) {if (!waitForResponse) {
             RestAdapter restAdapter = createRestAdapter();
             restAdapter.create(OpenXCService.class).getData(callback);
         }
