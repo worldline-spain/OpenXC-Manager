@@ -26,9 +26,6 @@ public class ApiClient {
     }
 
     public static ApiClient getInstance() {
-        if (INSTANCE == null) {
-            throw new IllegalArgumentException("ApiClient should be initialized before call getInstance()");
-        }
         return INSTANCE;
     }
 

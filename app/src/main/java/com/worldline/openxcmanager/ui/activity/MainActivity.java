@@ -42,7 +42,6 @@ public class MainActivity extends AppCompatActivity implements ApiClientPresente
         recyclerView.setLayoutManager(new StaggeredGridLayoutManager(getResources().getInteger(R.integer.grid_size), StaggeredGridLayoutManager.VERTICAL));
         adapter = new CardsAdapter(LayoutInflater.from(this), this);
         recyclerView.setAdapter(adapter);
-
     }
 
 
