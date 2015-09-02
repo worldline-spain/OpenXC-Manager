@@ -14,10 +14,8 @@ import com.worldline.openxcmanagers.sdk.OpenXCResponse;
  */
 public class CardVehicleStatus extends CardOpenXC {
 
-    private CompoundButton buttonOff;
-    private CompoundButton buttonStart;
-
     private CompoundButton.OnCheckedChangeListener compoundIgnitionStatusListener;
+    private CompoundButton buttonIgnitionStatus;
 
     public CardVehicleStatus(Context context) {
         super(context);
@@ -40,25 +38,12 @@ public class CardVehicleStatus extends CardOpenXC {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle(R.string.vehicle_status_title);
 
-        buttonOff = (CompoundButton) findViewById(R.id.ignition_status_off);
-        buttonOff.setTag("off");
-        buttonStart = (CompoundButton) findViewById(R.id.ignition_status_start);
-        buttonStart.setTag("start");
-
+        buttonIgnitionStatus = (CompoundButton) findViewById(R.id.ignition_status);
         compoundIgnitionStatusListener = new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-
-                buttonOff.setOnCheckedChangeListener(null);
-                buttonStart.setOnCheckedChangeListener(null);
-
-                buttonOff.setChecked(false);
-                buttonStart.setChecked(false);
-
-                buttonView.setChecked(isChecked);
-
                 if (requestListener != null) {
-                    requestListener.postData("ignition_status", String.valueOf(buttonView.getTag()));
+                    requestListener.postData("ignition_status", String.valueOf(isChecked ? "start" : "off"));
                 }
             }
         };
@@ -68,49 +53,13 @@ public class CardVehicleStatus extends CardOpenXC {
     public void setData(OpenXCResponse openXCResponse) {
         if (openXCResponse != null) {
             manageIgnitionButtons(openXCResponse.ignitionStatus);
-
         }
     }
 
     private void manageIgnitionButtons(String ignitionStatus) {
-        disableIgnitionButtons();
-
-        if (buttonOff != null) {
-            buttonOff.setOnCheckedChangeListener(null);
-        }
-        if (buttonStart != null) {
-            buttonStart.setOnCheckedChangeListener(null);
-        }
-        switch (ignitionStatus) {
-            case "off":
-                if (buttonOff != null) {
-                    buttonOff.setChecked(true);
-                }
-                break;
-            case "start":
-                if (buttonStart != null) {
-                    buttonStart.setChecked(true);
-                }
-                break;
-        }
-
-        if (buttonOff != null) {
-            buttonOff.setOnCheckedChangeListener(compoundIgnitionStatusListener);
-        }
-
-        if (buttonStart != null) {
-            buttonStart.setOnCheckedChangeListener(compoundIgnitionStatusListener);
-        }
-    }
-
-    private void disableIgnitionButtons() {
-        if (buttonOff != null) {
-            buttonOff.setChecked(false);
-        }
-
-        if (buttonStart != null) {
-            buttonStart.setChecked(false);
-        }
+        buttonIgnitionStatus.setOnCheckedChangeListener(null);
+        buttonIgnitionStatus.setChecked((ignitionStatus != null && ignitionStatus.equalsIgnoreCase("start")));
+        buttonIgnitionStatus.setOnCheckedChangeListener(compoundIgnitionStatusListener);
     }
 
 }

@@ -2,6 +2,7 @@ package com.worldline.openxcmanager.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
@@ -24,6 +25,7 @@ public class MainActivity extends AppCompatActivity implements ApiClientPresente
 
     private CardsAdapter adapter;
     private ApiClientPresenter presenter;
+    private RecyclerView recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +43,7 @@ public class MainActivity extends AppCompatActivity implements ApiClientPresente
     }
 
     private void findViews() {
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler);
+        recyclerView = (RecyclerView) findViewById(R.id.recycler);
         recyclerView.setLayoutManager(new StaggeredGridLayoutManager(getResources().getInteger(R.integer.grid_size), StaggeredGridLayoutManager.VERTICAL));
         adapter = new CardsAdapter(LayoutInflater.from(this), this, this);
         recyclerView.setAdapter(adapter);
@@ -50,6 +52,11 @@ public class MainActivity extends AppCompatActivity implements ApiClientPresente
     @Override
     public void setData(OpenXCResponse openXCResponse) {
         adapter.setOpenXcData(openXCResponse);
+    }
+
+    @Override
+    public void failure() {
+        Snackbar.make(recyclerView, "Failed", Snackbar.LENGTH_SHORT).show();
     }
 
     @Override

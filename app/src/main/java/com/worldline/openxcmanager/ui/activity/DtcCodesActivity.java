@@ -1,6 +1,7 @@
 package com.worldline.openxcmanager.ui.activity;
 
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -77,5 +78,10 @@ public class DtcCodesActivity extends AppCompatActivity implements DtcCodesAdapt
     public void setData(OpenXCResponse openXCResponse) {
         createAdapter();
         recyclerView.setAdapter(adapter);
+    }
+
+    @Override
+    public void failure() {
+        Snackbar.make(recyclerView, "Failed", Snackbar.LENGTH_SHORT).show();
     }
 }

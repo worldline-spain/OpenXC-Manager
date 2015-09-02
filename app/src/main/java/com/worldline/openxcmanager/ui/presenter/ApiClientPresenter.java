@@ -25,6 +25,7 @@ public class ApiClientPresenter {
     private ApiClientPresenterCallback apiClientPresenterCallback;
 
     private Callback<OpenXCResponse> callback = new Callback<OpenXCResponse>() {
+
         @Override
         public void success(OpenXCResponse openXCResponse, Response response) {
             if (apiClientPresenterCallback != null) {
@@ -34,7 +35,9 @@ public class ApiClientPresenter {
 
         @Override
         public void failure(RetrofitError error) {
-
+            if (apiClientPresenterCallback != null) {
+                apiClientPresenterCallback.failure();
+            }
         }
     };
 
@@ -107,5 +110,7 @@ public class ApiClientPresenter {
 
     public interface ApiClientPresenterCallback {
         void setData(OpenXCResponse openXCResponse);
+
+        void failure();
     }
 }

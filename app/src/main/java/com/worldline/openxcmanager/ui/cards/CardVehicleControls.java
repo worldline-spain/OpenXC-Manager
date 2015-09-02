@@ -18,11 +18,8 @@ import retrofit.client.Response;
  */
 public class CardVehicleControls extends CardOpenXC {
 
-    //private CenterSeekBar seekBarSteeringWheelAngle;
     private SeekBar seekBarAcceleratorPercentPercentage;
-    //private SeekBar seekBarBreakPercentPercentage;
-    private Callback<Response> responseCallback;
-    private boolean widgetsEnabled = true;
+    private SeekBar.OnSeekBarChangeListener seekBarAcceleratorListener;
 
     public CardVehicleControls(Context context) {
         super(context);
@@ -45,41 +42,9 @@ public class CardVehicleControls extends CardOpenXC {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle(R.string.vehicle_controls_title);
 
-//        seekBarSteeringWheelAngle = (CenterSeekBar) findViewById(R.id.steering_wheel_angle);
         seekBarAcceleratorPercentPercentage = (SeekBar) findViewById(R.id.accelerator_percent_percentage);
-//        seekBarBreakPercentPercentage = (SeekBar) findViewById(R.id.break_percent_percentage);
 
-        responseCallback = new Callback<Response>() {
-            @Override
-            public void success(Response response, Response response2) {
-                widgetsEnabled = true;
-            }
-
-            @Override
-            public void failure(RetrofitError error) {
-                widgetsEnabled = true;
-            }
-        };
-
-//        seekBarSteeringWheelAngle.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-//            @Override
-//            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-//
-//            }
-//
-//            @Override
-//            public void onStartTrackingTouch(SeekBar seekBar) {
-//                widgetsEnabled = false;
-//            }
-//
-//            @Override
-//            public void onStopTrackingTouch(SeekBar seekBar) {
-//                int progress = seekBarSteeringWheelAngle.getOffsetProgress();
-//                ApiClient.getInstance().postData("angle", String.valueOf(progress), responseCallback);
-//            }
-//        });
-
-        seekBarAcceleratorPercentPercentage.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        seekBarAcceleratorListener = new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
 
@@ -87,7 +52,7 @@ public class CardVehicleControls extends CardOpenXC {
 
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
-                widgetsEnabled = false;
+
             }
 
             @Override
@@ -96,50 +61,24 @@ public class CardVehicleControls extends CardOpenXC {
                     requestListener.postData("accelerator", String.valueOf(seekBar.getProgress()));
                 }
             }
-        });
+        };
 
-//        seekBarBreakPercentPercentage.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-//            @Override
-//            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-//
-//            }
-//
-//            @Override
-//            public void onStartTrackingTouch(SeekBar seekBar) {
-//                widgetsEnabled = false;
-//            }
-//
-//            @Override
-//            public void onStopTrackingTouch(SeekBar seekBar) {
-//                ApiClient.getInstance().postData("brake", String.valueOf(seekBar.getProgress()), responseCallback);
-//            }
-//        });
+        seekBarAcceleratorPercentPercentage.setOnSeekBarChangeListener(seekBarAcceleratorListener);
+
     }
 
     @Override
     public void setData(OpenXCResponse openXCResponse) {
-        if (openXCResponse != null && widgetsEnabled) {
-            steeringWheelAngle(openXCResponse.steeringWheelAngle);
+        if (openXCResponse != null) {
             acceleratorPercentPercentage(openXCResponse.acceleratorPedalPosition);
-            breakPercentPercentage(openXCResponse.brake);
         }
-    }
-
-    public void steeringWheelAngle(int wheelAngle) {
-//        if (seekBarSteeringWheelAngle != null) {
-//            seekBarSteeringWheelAngle.setProgress(wheelAngle);
-//        }
     }
 
     public void acceleratorPercentPercentage(int acceleratorPedalPosition) {
         if (seekBarAcceleratorPercentPercentage != null) {
+            seekBarAcceleratorPercentPercentage.setOnSeekBarChangeListener(null);
             seekBarAcceleratorPercentPercentage.setProgress(acceleratorPedalPosition);
+            seekBarAcceleratorPercentPercentage.setOnSeekBarChangeListener(seekBarAcceleratorListener);
         }
-    }
-
-    public void breakPercentPercentage(int breakPedalPosition) {
-//        if (seekBarBreakPercentPercentage != null) {
-//            seekBarBreakPercentPercentage.setProgress(breakPedalPosition);
-//        }
     }
 }

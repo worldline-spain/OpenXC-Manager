@@ -1,10 +1,14 @@
 package com.worldline.openxcmanagers.sdk;
 
+import android.util.Log;
+
+import com.squareup.okhttp.OkHttpClient;
 import com.worldline.openxcmanagers.sdk.service.OpenXCService;
 
 import retrofit.Callback;
 import retrofit.RestAdapter;
 import retrofit.RetrofitError;
+import retrofit.client.OkClient;
 import retrofit.client.Response;
 
 public class ApiClient {
@@ -33,8 +37,8 @@ public class ApiClient {
     }
 
     public void getData(Callback<OpenXCResponse> callback) {
-            RestAdapter restAdapter = createRestAdapter();
-            restAdapter.create(OpenXCService.class).getData(callback);
+        RestAdapter restAdapter = createRestAdapter();
+        restAdapter.create(OpenXCService.class).getData(callback);
     }
 
     public void postData(String key, String value, Callback<OpenXCResponse> callback) {
@@ -49,19 +53,18 @@ public class ApiClient {
 
     private RestAdapter createRestAdapter() {
         RestAdapter.Builder builder = new RestAdapter.Builder();
+        builder.setClient(new OkClient(new OkHttpClient()));
         builder.setEndpoint(clientProvider);
 
-        if (logLevel != null && log != null) {
-            builder.setLogLevel(logLevel);
-            builder.setLog(log);
-        }
+        builder.setLogLevel(RestAdapter.LogLevel.FULL);
+        builder.setLog(new RestAdapter.Log() {
+            @Override
+            public void log(String message) {
+                Log.w("OpenXCManager", message);
+            }
+        });
 
         return builder.build();
-    }
-
-    public void setLog(RestAdapter.LogLevel logLevel, RestAdapter.Log log) {
-        this.logLevel = logLevel;
-        this.log = log;
     }
 
     private class WaitCallback implements Callback<Response> {

@@ -23,56 +23,17 @@
             android:text="@string/ignition_status"
             android:visibility="gone" />
 
-        <LinearLayout
+        <Switch
+            android:id="@+id/ignition_status"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/gapMedium"
             android:orientation="horizontal"
-            android:padding="@dimen/gapMedium">
-
-            <ToggleButton
-                android:id="@+id/ignition_status_off"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:checked="true"
-                android:textOff="@string/ignition_status_off"
-                android:textOn="@string/ignition_status_off"
-                android:textSize="12sp"
-                android:theme="@style/toggle_buttons" />
-
-            <ToggleButton
-                android:id="@+id/ignition_status_accessory"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textOff="@string/ignition_status_accessory"
-                android:textOn="@string/ignition_status_accessory"
-                android:textSize="12sp"
-                android:theme="@style/toggle_buttons"
-                android:visibility="gone" />
-
-            <ToggleButton
-                android:id="@+id/ignition_status_run"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textOff="@string/ignition_status_run"
-                android:textOn="@string/ignition_status_run"
-                android:textSize="12sp"
-                android:theme="@style/toggle_buttons"
-                android:visibility="gone" />
-
-            <ToggleButton
-                android:id="@+id/ignition_status_start"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textOff="@string/ignition_status_start"
-                android:textOn="@string/ignition_status_start"
-                android:textSize="12sp"
-                android:theme="@style/toggle_buttons" />
-        </LinearLayout>
+            android:padding="@dimen/gapMedium"
+            android:showText="true"
+            android:text="Car status"
+            android:textOff="Off"
+            android:textOn="On" />
     </LinearLayout>
 
     <LinearLayout
