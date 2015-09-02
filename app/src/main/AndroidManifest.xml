@@ -36,14 +36,6 @@
             android:label="@string/title_activity_dtc_codes" />
 
         <meta-data
-            android:name="com.google.android.geo.API_KEY"
-            android:value="@string/google_maps_key" />
-
-        <activity
-            android:name=".ui.activity.MapActivity"
-            android:label="@string/title_activity_map" />
-
-        <meta-data
             android:name="io.fabric.ApiKey"
             android:value="38ed5f68f58371757de903842af93cf6cdeb6b17" />
     </application>

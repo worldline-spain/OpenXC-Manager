@@ -62,7 +62,7 @@ public class CardVehicleMilDtc extends CardOpenXC {
         sendOK.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                requestListener.sendCustomMessage("DONGLE_LR_MIL", "true", "mil");
+                requestListener.sendCustomMessage("DONGLE_LR_MIL", "false", "mil");
             }
         });
 

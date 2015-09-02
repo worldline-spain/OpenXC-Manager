@@ -2,7 +2,6 @@ package com.worldline.openxcmanagers.sdk;
 
 import android.util.Log;
 
-import com.squareup.okhttp.OkHttpClient;
 import com.worldline.openxcmanagers.sdk.service.OpenXCService;
 
 import retrofit.Callback;
@@ -53,7 +52,7 @@ public class ApiClient {
 
     private RestAdapter createRestAdapter() {
         RestAdapter.Builder builder = new RestAdapter.Builder();
-        builder.setClient(new OkClient(new OkHttpClient()));
+        builder.setClient(new OkClient());
         builder.setEndpoint(clientProvider);
 
         builder.setLogLevel(RestAdapter.LogLevel.FULL);
