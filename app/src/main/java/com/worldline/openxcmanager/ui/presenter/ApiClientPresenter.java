@@ -28,16 +28,13 @@ public class ApiClientPresenter {
         @Override
         public void success(OpenXCResponse openXCResponse, Response response) {
             if (apiClientPresenterCallback != null) {
-                apiClientPresenterCallback.showOpenXCData(true);
                 apiClientPresenterCallback.setData(openXCResponse);
             }
         }
 
         @Override
         public void failure(RetrofitError error) {
-            if (apiClientPresenterCallback != null) {
-                apiClientPresenterCallback.showOpenXCData(false);
-            }
+
         }
     };
 
@@ -65,20 +62,22 @@ public class ApiClientPresenter {
 
     public void init(ApiClientPresenterCallback apiClientPresenterCallback) {
         this.apiClientPresenterCallback = apiClientPresenterCallback;
+    }
 
-        final Handler handler = new Handler();
-        Runnable runnable = new Runnable() {
-            @Override
-            public void run() {
-                ApiClient.getInstance().getData(callback);
-                handler.postDelayed(this, 500);
-            }
-        };
-        handler.post(runnable);
+    public void getData() {
+        ApiClient.getInstance().getData(callback);
     }
 
     public void modifyDtc(DtcVO dtcVO, boolean isActive) {
         dtcLoad.modifyDtc(dtcVO, (isActive ? 1 : 0));
+    }
+
+    public void sendCustomMessage(String key, String value, String event) {
+        ApiClient.getInstance().customMessage(key, value, event, callback);
+    }
+
+    public void sendPostData(String key, String value) {
+        ApiClient.getInstance().postData(key, value, callback);
     }
 
     private class APiConnection extends ApiClientProvider {
@@ -107,8 +106,6 @@ public class ApiClientPresenter {
     }
 
     public interface ApiClientPresenterCallback {
-        void showOpenXCData(boolean show);
-
         void setData(OpenXCResponse openXCResponse);
     }
 }

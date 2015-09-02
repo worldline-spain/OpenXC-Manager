@@ -23,8 +23,11 @@ public class CardsAdapter extends RecyclerView.Adapter<CardsAdapter.CardHolder> 
     private OpenXCResponse openXcData;
     private CardVehicleMilDtc.MilDtcCallback milDtcCallback;
 
-    public CardsAdapter(LayoutInflater inflater, CardVehicleMilDtc.MilDtcCallback milDtcCallback) {
+    private RequestListener requestListener;
+
+    public CardsAdapter(LayoutInflater inflater, RequestListener requestListener, CardVehicleMilDtc.MilDtcCallback milDtcCallback) {
         this.inflater = inflater;
+        this.requestListener = requestListener;
         this.milDtcCallback = milDtcCallback;
     }
 
@@ -86,6 +89,13 @@ public class CardsAdapter extends RecyclerView.Adapter<CardsAdapter.CardHolder> 
         public CardHolder(View itemView) {
             super(itemView);
             card = (CardOpenXC) itemView.findViewById(R.id.card);
+            card.setRequestListener(requestListener);
         }
+    }
+
+    public interface RequestListener {
+        void sendCustomMessage(String key, String vaalue, String event);
+
+        void postData(String key, String value);
     }
 }

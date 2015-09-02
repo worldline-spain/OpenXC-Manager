@@ -140,7 +140,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
             }
         };
-        ApiClient.getInstance().postData("latitude", String.valueOf(position.latitude), callback);
-        ApiClient.getInstance().postData("longitude", String.valueOf(position.longitude), callback);
+//        ApiClient.getInstance().postData("latitude", String.valueOf(position.latitude), callback);
+//        ApiClient.getInstance().postData("longitude", String.valueOf(position.longitude), callback);
     }
 }

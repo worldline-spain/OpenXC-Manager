@@ -23,8 +23,6 @@ import retrofit.client.Response;
  */
 public class CardVehicleMilDtc extends CardOpenXC {
 
-    private Callback<Response> responseCallback;
-    private boolean widgetsEnabled = true;
     private MilDtcCallback milDtcCallback;
 
     public CardVehicleMilDtc(Context context) {
@@ -55,19 +53,16 @@ public class CardVehicleMilDtc extends CardOpenXC {
         sendMIL.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                widgetsEnabled = false;
-
-                ApiClient.getInstance().setLog(RestAdapter.LogLevel.FULL, new AndroidLog("CardVehicleMilDtc"));
-                ApiClient.getInstance().customMessage("DONGLE_LR_MIL", "true", "mil", responseCallback);
+                if (requestListener != null) {
+                    requestListener.sendCustomMessage("DONGLE_LR_MIL", "true", "mil");
+                }
             }
         });
 
         sendOK.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                widgetsEnabled = false;
-
-                ApiClient.getInstance().customMessage("DONGLE_LR_MIL", "false", "mil", responseCallback);
+                requestListener.sendCustomMessage("DONGLE_LR_MIL", "true", "mil");
             }
         });
 
@@ -79,18 +74,6 @@ public class CardVehicleMilDtc extends CardOpenXC {
                 }
             }
         });
-
-        responseCallback = new Callback<Response>() {
-            @Override
-            public void success(Response response, Response response2) {
-                widgetsEnabled = true;
-            }
-
-            @Override
-            public void failure(RetrofitError error) {
-                widgetsEnabled = true;
-            }
-        };
     }
 
     @Override

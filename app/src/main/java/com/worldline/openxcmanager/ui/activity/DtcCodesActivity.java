@@ -13,14 +13,14 @@ import com.worldline.openxcmanager.ui.adapter.DtcCodesAdapter;
 import com.worldline.openxcmanager.ui.presenter.ApiClientPresenter;
 import com.worldline.openxcmanagers.sdk.ApiClient;
 import com.worldline.openxcmanagers.sdk.DtcVO;
+import com.worldline.openxcmanagers.sdk.OpenXCResponse;
 
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-public class DtcCodesActivity extends AppCompatActivity implements DtcCodesAdapter.DtcCallback {
+public class DtcCodesActivity extends AppCompatActivity implements DtcCodesAdapter.DtcCallback, ApiClientPresenter.ApiClientPresenterCallback {
 
-    private Callback<Response> callback;
     private DtcCodesAdapter adapter;
     private RecyclerView recyclerView;
     private ApiClientPresenter presenter;
@@ -35,21 +35,9 @@ public class DtcCodesActivity extends AppCompatActivity implements DtcCodesAdapt
         }
 
         presenter = new ApiClientPresenter(this);
+        presenter.init(this);
 
         findViews();
-
-        callback = new Callback<Response>() {
-            @Override
-            public void success(Response response, Response response2) {
-                createAdapter();
-                recyclerView.setAdapter(adapter);
-            }
-
-            @Override
-            public void failure(RetrofitError error) {
-
-            }
-        };
     }
 
     private void findViews() {
@@ -76,12 +64,18 @@ public class DtcCodesActivity extends AppCompatActivity implements DtcCodesAdapt
     @Override
     public void sendDTC(DtcVO dtcVO) {
         presenter.modifyDtc(dtcVO, true);
-        ApiClient.getInstance().customMessage(dtcVO.getDtcCode(), "true", "DTC_ERROR", callback);
+        presenter.sendCustomMessage(dtcVO.getDtcCode(), "true", "DTC_ERROR");
     }
 
     @Override
     public void cancelDTC(DtcVO dtcVO) {
         presenter.modifyDtc(dtcVO, false);
-        ApiClient.getInstance().customMessage(dtcVO.getDtcCode(), "false", "DTC_ERROR", callback);
+        presenter.sendCustomMessage(dtcVO.getDtcCode(), "false", "DTC_ERROR");
+    }
+
+    @Override
+    public void setData(OpenXCResponse openXCResponse) {
+        createAdapter();
+        recyclerView.setAdapter(adapter);
     }
 }

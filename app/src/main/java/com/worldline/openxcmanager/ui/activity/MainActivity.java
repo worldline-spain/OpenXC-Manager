@@ -15,13 +15,15 @@ import com.worldline.openxcmanager.R;
 import com.worldline.openxcmanager.ui.adapter.CardsAdapter;
 import com.worldline.openxcmanager.ui.cards.CardVehicleMilDtc;
 import com.worldline.openxcmanager.ui.presenter.ApiClientPresenter;
+import com.worldline.openxcmanagers.sdk.ApiClient;
 import com.worldline.openxcmanagers.sdk.OpenXCResponse;
 
 import io.fabric.sdk.android.Fabric;
 
-public class MainActivity extends AppCompatActivity implements ApiClientPresenter.ApiClientPresenterCallback, CardVehicleMilDtc.MilDtcCallback {
+public class MainActivity extends AppCompatActivity implements ApiClientPresenter.ApiClientPresenterCallback, CardVehicleMilDtc.MilDtcCallback, CardsAdapter.RequestListener {
 
     private CardsAdapter adapter;
+    private ApiClientPresenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,23 +35,16 @@ public class MainActivity extends AppCompatActivity implements ApiClientPresente
 
         findViews();
 
-        ApiClientPresenter presenter = new ApiClientPresenter(this);
+        presenter = new ApiClientPresenter(this);
         presenter.init(this);
+        presenter.getData();
     }
 
     private void findViews() {
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler);
         recyclerView.setLayoutManager(new StaggeredGridLayoutManager(getResources().getInteger(R.integer.grid_size), StaggeredGridLayoutManager.VERTICAL));
-        adapter = new CardsAdapter(LayoutInflater.from(this), this);
+        adapter = new CardsAdapter(LayoutInflater.from(this), this, this);
         recyclerView.setAdapter(adapter);
-    }
-
-
-    @Override
-    public void showOpenXCData(boolean show) {
-        if (!show) {
-            adapter.clear();
-        }
     }
 
     @Override
@@ -61,5 +56,15 @@ public class MainActivity extends AppCompatActivity implements ApiClientPresente
     public void requestDtcCodes() {
         Intent intent = new Intent(this, DtcCodesActivity.class);
         startActivity(intent);
+    }
+
+    @Override
+    public void sendCustomMessage(String key, String value, String event) {
+        presenter.sendCustomMessage(key, value, event);
+    }
+
+    @Override
+    public void postData(String key, String value) {
+        presenter.sendPostData(key, value);
     }
 }
